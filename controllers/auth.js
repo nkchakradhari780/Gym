@@ -44,7 +44,7 @@ module.exports.loginUser = async (req,res)=>{
         }
         else{
             req.send("Email or password is incorrect");
-            return res.redirect("/");
+            return res.redirect("/");       //login page 
         }
 
     })
@@ -52,4 +52,5 @@ module.exports.loginUser = async (req,res)=>{
 
 module.exports.logout = (req,res)=>{
     res.cookie("token")
+    res.redirect("/");      //home page 
 }
