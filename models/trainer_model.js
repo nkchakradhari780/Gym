@@ -15,6 +15,10 @@ const trainerSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: plan
     }],
+    customers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: customer,
+    }]
 });
 
 module.exports = mongoose.model("trainer",trainerSchema);

@@ -10,7 +10,10 @@ const ownerSchema = mongoose.Schema({
     aadharNo: String,
     dob: Date,
     age: Number,
-
+    gym: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: gym
+    }
 });
 
 module.exports = mongoose.model("owner",ownerSchema);

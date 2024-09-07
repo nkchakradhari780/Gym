@@ -13,6 +13,10 @@ const planSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: ditePlan
     },
+    trainers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: trainer
+    }]
 })
 
 module.exports = mongoose.model("plan",planSchema);
