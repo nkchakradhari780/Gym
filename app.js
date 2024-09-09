@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser')
+
 const indexRoute = require('./routes/index')
 const userRoute = require('./routes/userRoute')
-const cookieParser = require('cookie-parser')
+const customerRoute = require('./routes/customresRoute')
 
 require('dotenv').config();
 
@@ -16,6 +18,7 @@ app.set("view engine","ejs");
 app.use('/',indexRoute)
 
 app.use('/user',userRoute);
+app.use('/customer',customerRoute);
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');

@@ -5,25 +5,24 @@ const costumerSchema = mongoose.Schema({
     email: String,
     password: String,
     contact: Number,
-    photo: String,
+    photo: Buffer,
     address: String,
     weight: Number,
-    dob: Date,
     age: Number,
     startDate: Date,
     endDate: Date,
     // time: String,
     joinedPlans:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: plan
+        ref: 'plan'
     }],
     trainer: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: trainer,
+        ref: 'trainer'
     },
     ditePlans: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: diteplans
+        ref: 'diteplans'
     }],
 });
 

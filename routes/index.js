@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 // const isAuthenticated = require('../middlewares/')
 
-router.get("/",(req,res)=>{
-    res.send("hey its working");
-})
-
 // Home page
 router.get("/", (req, res) => {
     res.send("Welcome to the home page!");
@@ -31,18 +27,14 @@ router.get("/services", (req, res) => {
     res.send("These are the services we offer");
 });
 
-// // Contact Us page (requires login)
-// router.get("/contactus", isAuthenticated, (req, res) => {
-//     res.send("Contact us after logging in");
-// });
 
-// // Free Trial page (requires login)
-// router.get("/freetrial", isAuthenticated, (req, res) => {
-//     res.send("Enjoy a free trial after logging in");
-// });
+
 
 router.get('/signup',(req,res)=>{
     res.render('signup');
+})
+router.get('/customersignup',(req,res)=>{
+    res.render('signupcustomer');
 })
 
 router.get('/login',(req,res)=>{
