@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const isLoggedin = require('../middlewares/isLoggedin')
 const {
     registerUser,
     loginUser,
@@ -15,7 +16,7 @@ const {
 //about us 
 //home 
 
-router.post('/register',registerUser);
+router.post('/signup', registerUser);
 
 router.post('/login', loginUser);
 
