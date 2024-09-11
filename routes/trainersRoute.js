@@ -9,13 +9,11 @@ const {
     logout
 } = require('../controllers/trainerAuth');
 
-router.post('/signup',upload.single("photo"), registerTrainer);
+   //remove this section 
 
 router.post('/login', loginTrainer);
 
 router.post('/update',updateTrainer);
-
-router.post('/delete',deleteTrainer);
 
 router.post('/logout',logout);
 
