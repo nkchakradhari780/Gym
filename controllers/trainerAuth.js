@@ -57,7 +57,15 @@ module.exports.registerTrainer = async (req, res) => {
     }
   };
   
+  module.exports.updateTrainer = async (req,res) =>{
+    
+  }
   
+  
+  module.exports.deleteTrainer = async (req,res) =>{
+
+  }
+
   module.exports.logout = (req, res) => {
     res.cookie("token");
     res.redirect("/"); //home page

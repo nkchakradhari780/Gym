@@ -57,7 +57,32 @@ module.exports.registerCustomer = async (req, res) => {
       console.log(err.message);
     }
   };
-  
+
+  module.exports.updateCustomer = async (req,res) =>{
+    try{
+      let { email, fullname, contact, address, weight, age, startDate, endDate}  = req.body;
+
+      let customer = await customerModel.findOneAndUpdate({email},{fullname,contact,address, weight, age, startDate,endDate}, {new: true}).send("Customer Updated");
+      if(!customer) return res.status(401).send("Something Went wrong");
+      res.send(customer);
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+ 
+  module.exports.deleteCustomer = async (req,res) =>{
+    try{
+      let {email} = req.body;
+
+      let customer = await customerModel.findOneAndDelete({email});
+      res.send('customer deleted');
+    }
+    catch(err){
+      console.log(err.message);
+    }
+  }
+
   module.exports.logout = (req, res) => {
     res.cookie("token");
     res.redirect("/"); //home page

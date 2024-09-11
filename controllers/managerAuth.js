@@ -3,8 +3,6 @@ const jwt = require("jsonwebtoken");
 const managerModel = require('../models/manager_model')
 const { generateToken } = require("../utils/generatetoken");
 
-
-
 module.exports.registerManager = async (req,res)=>{
     try{
       let { fullName, email, password, contact, address, aadharNo, age, salary, photo, managerId } = req.body;
@@ -61,6 +59,13 @@ module.exports.registerManager = async (req,res)=>{
     }
   }
 
+  module.exports.updateManager = (req,res) => {
+    
+  }
+  
+  module.exports.deleteManager = (req,res) => {
+
+  }
 
   module.exports.logout = (req, res) => {
     res.cookie("token");

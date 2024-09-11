@@ -41,5 +41,13 @@ router.get('/login',(req,res)=>{
     res.render('login');
 })
 
+router.get('/customerupdate',(req,res)=>{
+    res.render('update');
+})
+
+router.get('/customerdelete',(req,res)=>{
+    res.render('delete');
+})
+
 
 module.exports = router;

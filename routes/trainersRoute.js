@@ -4,12 +4,18 @@ const upload = require('../config/multer-config');
 const {
     registerTrainer,
     loginTrainer,
+    updateTrainer,
+    deleteTrainer,
     logout
-} = require('../controllers/auth');
+} = require('../controllers/trainerAuth');
 
 router.post('/signup',upload.single("photo"), registerTrainer);
 
 router.post('/login', loginTrainer);
+
+router.post('/update',updateTrainer);
+
+router.post('/delete',deleteTrainer);
 
 router.post('/logout',logout);
 

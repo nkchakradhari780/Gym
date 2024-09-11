@@ -5,7 +5,7 @@ const {
     registerUser,
     loginUser,
     logout
-} = require('../controllers/auth');
+} = require('../controllers/userAuth');
 
 //login
 //register
