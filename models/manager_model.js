@@ -7,15 +7,14 @@ const managerSchema = mongoose.Schema({
     contact: Number,
     address: String,
     aadharNo: String,
-    dob: Date,
     age: Number,
     salary: Number,
-    Photo: String,
+    Photo: Buffer,
     managerId: String,
-    // trainers: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: trainer
-    // }]
+    trainers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'trainer'
+    }]
 })
 
 module.exports = mongoose.model("manager", managerSchema);

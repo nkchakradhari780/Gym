@@ -8,12 +8,12 @@ const ownerSchema = mongoose.Schema({
     photo: String,
     address: String,
     aadharNo: String,
-    dob: Date,
     age: Number,
-    gym: {
+    gym: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: gym
-    }
+    }],
+    
 });
 
 module.exports = mongoose.model("owner",ownerSchema);
