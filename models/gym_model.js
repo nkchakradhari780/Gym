@@ -6,31 +6,31 @@ const gymSchema = mongoose.Schema({
     Address: String,
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: owner,
+        ref: 'owner',
     },
     managers: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: manager,
+        ref: 'manager',
     }],
     plans: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: plan,
+        ref: 'plan',
     }],
     customers: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: customer,
+        ref: 'customer',
     }],
     equipments: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: equipment,
+        ref: 'equipment',
     }],
     diteplans: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: diteplan,
+        ref: 'diteplan',
     }],
     monthIncome: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: monthIncome,
+        ref: 'monthIncome',
     }]
 });
 

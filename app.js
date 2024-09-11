@@ -2,14 +2,15 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser')
+const db = require('./config/mongoose-connection')
 
-const indexRoute = require('./routes/index')
+const indexRoute = require('./routes/indexRoute')
 const userRoute = require('./routes/userRoute')
 const customerRoute = require('./routes/customresRoute')
+const trainersRoute = require('./routes/trainersRoute')
 
 require('dotenv').config();
 
-const db = require('./config/mongoose-connection')
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,"public")));
@@ -19,6 +20,7 @@ app.use('/',indexRoute)
 
 app.use('/user',userRoute);
 app.use('/customer',customerRoute);
+app.use('/trainer', trainersRoute);
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');

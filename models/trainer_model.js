@@ -8,16 +8,16 @@ const trainerSchema = mongoose.Schema({
     photo: String,
     address: String,
     salary: Number,
-    dob: Date,
+    age: Number,
     trainerID: String,
     // Time: Time,
     trainningPlans: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: plan
+        ref: 'plan'
     }],
     customers: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: customer,
+        ref: 'customer'
     }]
 });
 
