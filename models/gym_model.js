@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const gymSchema = mongoose.Schema({
     gymName: String,
     gstNo: String,
-    Address: String,
+    address: String,
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'owner',

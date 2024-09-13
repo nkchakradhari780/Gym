@@ -27,14 +27,18 @@ const { generateToken } = require("../utils/generatetoken");
   };
   
   module.exports.updateTrainer = async (req,res) =>{
-    
+    try{
+      let {email,contact,age,fullname,address} = req.body;
+
+      let trainer = await trainerModel.findOneAndUpdate({email},{contact,age,fullname,address},{new:true});
+      if(!trainer) return res.status(401).send("Something went wrong");
+      res.send(trainer);
+    }
+    catch(err){
+      console.log(err.message);
+    }
   }
   
-  
-  module.exports.deleteTrainer = async (req,res) =>{
-
-  }
-
   module.exports.logout = (req, res) => {
     res.cookie("token");
     res.redirect("/"); //home page

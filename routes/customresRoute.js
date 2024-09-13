@@ -6,7 +6,6 @@ const {
     registerCustomer,
     loginCustomer,
     updateCustomer,
-    deleteCustomer,
     logout
 } = require('../controllers/customerAuth');
 
@@ -15,8 +14,6 @@ router.post('/signup',upload.single("photo"), registerCustomer);
 router.post('/login', loginCustomer);
 
 router.post('/update', updateCustomer);
-
-router.post('/delete',deleteCustomer);
 
 router.post('/logout',logout);
 

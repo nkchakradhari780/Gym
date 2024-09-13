@@ -1,9 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const ownerModel = require('../models/owner_model');
+const gymModel = require('../models/gym_model');
 const { generateToken } = require("../utils/generatetoken");
-
-
 
 module.exports.registerOwner = async (req,res)=>{
     try{
@@ -58,6 +57,65 @@ module.exports.registerOwner = async (req,res)=>{
     }
   }
 
+  module.exports.registerManager = async (req,res)=>{
+    try{
+      let { fullName, email, password, contact, address, aadharNo, age, salary, photo, managerId } = req.body;
+  
+      let manager = await managerModel.findOne({email: email});
+      if (manager)
+        return res.status(401).send("Manager Exists You Need to login ");
+  
+      bcrypt.genSalt(10,(err, salt) =>{
+        bcrypt.hash(password,salt, async (err,hash)=>{
+          if (err) return res.send(err.message);
+          else{
+            let manager = await managerModel.create({
+              email,
+              fullName,
+              contact,
+              address,
+              aadharNo,
+              age,
+              salary,
+              managerId,
+              photo,
+              password: hash
+            })
+          }
+        })
+      })
+  
+    }
+    catch(err){
+      console.log(err.message);
+    }
+  }
+
+  module.exports.updateManager = async (req,res)=>{
+    try{
+      let {managerId,salary,aadharNo,address,contact,email} = req.body;
+
+      let manager = await managerModel.findOneAndUpdate({email},{managerId,salary,aadharNo,address,contact},{new: true})
+      if(!manager) return res.status(401).send("Something went wrong");
+      res.send(manager);
+    }
+    catch(err){
+      console.log(err.message);
+    }
+  }
+
+  module.exports.deleteManager = async (req,res) =>{
+    try{
+      let {email} = req.body;
+
+      let manager = await managerModel.findOneAndDelete({email});
+      if(!manager) return res.status(401).send("Something went wrong");
+      res.send("Manager Deleted");
+    }
+    catch(err){
+      console.log(err.message);
+    }
+  }
 
   module.exports.logout = (req, res) => {
     res.cookie("token");

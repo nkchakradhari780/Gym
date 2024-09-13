@@ -71,17 +71,17 @@ module.exports.registerCustomer = async (req, res) => {
     }
   }
  
-  module.exports.deleteCustomer = async (req,res) =>{
-    try{
-      let {email} = req.body;
+  // module.exports.deleteCustomer = async (req,res) =>{
+  //   try{
+  //     let {email} = req.body;
 
-      let customer = await customerModel.findOneAndDelete({email});
-      res.send('customer deleted');
-    }
-    catch(err){
-      console.log(err.message);
-    }
-  }
+  //     let customer = await customerModel.findOneAndDelete({email});
+  //     res.send('customer deleted');
+  //   }
+  //   catch(err){
+  //     console.log(err.message);
+  //   }
+  // }
 
   module.exports.logout = (req, res) => {
     res.cookie("token");

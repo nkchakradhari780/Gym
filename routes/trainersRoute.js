@@ -2,10 +2,8 @@ const express = require('express')
 const router = express.Router();
 const upload = require('../config/multer-config');
 const {
-    registerTrainer,
     loginTrainer,
     updateTrainer,
-    deleteTrainer,
     logout
 } = require('../controllers/trainerAuth');
 
