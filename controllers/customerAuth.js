@@ -37,6 +37,7 @@ module.exports.registerCustomer = async (req, res) => {
     }
   };
   
+
   module.exports.loginCustomer = async (req, res) => {
     try {
       let { email, password } = req.body;
@@ -62,7 +63,9 @@ module.exports.registerCustomer = async (req, res) => {
     try{
       let { email, fullname, contact, address, weight, age}  = req.body;
 
-      let customer = await customerModel.findOneAndUpdate({email},{fullname,contact,address, weight, age, startDate,endDate}, {new: true}).send("Customer Updated");
+      let customer = await customerModel
+        .findOneAndUpdate({email},{fullname,contact,address, weight, age, startDate,endDate}, {new: true})
+        .send("Customer Updated");
       if(!customer) return res.status(401).send("Something Went wrong");
       res.send(customer);
     }

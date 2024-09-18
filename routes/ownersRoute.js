@@ -15,14 +15,16 @@ const {
 const {
     registerTrainer,
     updateTrainer,
-    deleteTrainer
+    deleteTrainer,
+    createPlan,
+    deletePlan
 } = require('../controllers/managerAuth')
 
-router.post('/signup',upload.single("photo"), registerOwner);
+// router.post('/signup',upload.single("photo"), registerOwner);
 
 router.post('/login', loginOwner);
 
-router.post('/update',isLoggedin, updateOwner);
+// router.post('/update',isLoggedin, updateOwner);
 
 router.post('/manager/create',upload.single("photo"), registerManager);
 
@@ -35,6 +37,10 @@ router.post('/trainer/create',registerTrainer);
 router.post('/trainer/update',updateTrainer);
 
 router.post('/trainer/delete',deleteTrainer);
+
+router.post('/plan/create',createPlan);
+
+router.post('/plan/delete',deletePlan);
 
 router.post('/logout',logout);
 

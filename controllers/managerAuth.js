@@ -1,6 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const managerModel = require('../models/manager_model')
+const managerModel = require('../models/manager_model');
+const planModel = require('../models/plan_module');
+const trainerModel = require('../models/trainer_model');
+const customerModel = require('../models/costumer_model');
 const { generateToken } = require("../utils/generatetoken");
 
   module.exports.loginManager = async (req,res)=>{
@@ -26,18 +29,18 @@ const { generateToken } = require("../utils/generatetoken");
     }
   }
 
-  module.exports.updateManager = async (req,res) => {
-    try{
-      let {email,fullname,contact,address,aadharNo,age} = req.body;
+  // module.exports.updateManager = async (req,res) => {
+  //   try{
+  //     let {email,fullname,contact,address,aadharNo,age} = req.body;
 
-      let manager = await managerModel.findOneAndUpdate({email},{fullname,contact,address,aadharNo,age},{new: true}).send("Manager Udated successfully");
-      if(!manager) return res.status(401).send("something went wrong")
-      res.send(manager);
-    }
-    catch(err){
-      console.log(err.messaage);
-    }
-  }
+  //     let manager = await managerModel.findOneAndUpdate({email},{fullname,contact,address,aadharNo,age},{new: true}).send("Manager Udated successfully");
+  //     if(!manager) return res.status(401).send("something went wrong")
+  //     res.send(manager);
+  //   }
+  //   catch(err){
+  //     console.log(err.messaage);
+  //   }
+  // }
   
   module.exports.registerTrainer = async (req, res) => {
     try {
@@ -92,6 +95,28 @@ const { generateToken } = require("../utils/generatetoken");
     }
     catch(err){
       console.log(err.message);
+    }
+  }
+
+  module.exports.listTrainers = async (req,res) =>{
+    try{
+      let trainerList = await trainerModel.find();
+      res.json(trainerList);
+    }
+    catch(err){
+      console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+  }
+
+  module.exports.listCustomers = async (req,res) =>{
+    try{
+      let customerList = await customerModel.find();
+      res.json(trainerList);
+    }
+    catch(err){
+      console.error(err);
+        res.status(500).json({ message: 'Server error' });
     }
   }
 

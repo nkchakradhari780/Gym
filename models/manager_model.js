@@ -14,7 +14,11 @@ const managerSchema = mongoose.Schema({
     trainers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'trainer'
-    }]
+    }],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 })
 
 module.exports = mongoose.model("manager", managerSchema);

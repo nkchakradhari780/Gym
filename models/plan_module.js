@@ -3,19 +3,16 @@ const mongoose = require('mongoose');
 const planSchema = mongoose.Schema({
     planID: String,
     level: String,
+    planName: String,
     price: Number,
     duration: Number,       // In Days 
-    createDate: Date,
+    category: String,
+    createDate: {
+        type: Date,
+        default: Date.now
+    },
     facilities: [{
         type: String
-    }],
-    ditePlan: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: ditePlan
-    },
-    trainers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: trainer
     }]
 })
 

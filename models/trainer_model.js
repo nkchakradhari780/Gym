@@ -18,7 +18,26 @@ const trainerSchema = mongoose.Schema({
     customers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'customer'
-    }]
+    }],
+     // Attendance - storing attendance records as an array of dates
+    attendance: [
+        {
+            date: {
+                type: Date,
+                required: true,
+            },
+            status: {
+                type: String,
+                enum: ['Present', 'Absent'], // Trainer can be marked as 'Present' or 'Absent'
+                required: true,
+            },
+        }
+    ],
+
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 module.exports = mongoose.model("trainer",trainerSchema);

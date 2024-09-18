@@ -24,6 +24,24 @@ const costumerSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'diteplans'
     }],
+    attendance: [
+        {
+            date: {
+                type: Date,
+                required: true,
+            },
+            status: {
+                type: String,
+                enum: ['Present', 'Absent'], 
+                required: true,
+            },
+        }
+    ],
+
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 module.exports = mongoose.model("costumer",costumerSchema);
