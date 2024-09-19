@@ -11,3 +11,7 @@ module.exports.updateGym = async (req,res)=>{
 module.exports.deleteGym = async (req,res)=>{
     
 }
+
+module.exports.listGyms = async (req,res) =>{
+    
+}

@@ -29,99 +29,78 @@ const { generateToken } = require("../utils/generatetoken");
     }
   }
 
-  // module.exports.updateManager = async (req,res) => {
-  //   try{
-  //     let {email,fullname,contact,address,aadharNo,age} = req.body;
-
-  //     let manager = await managerModel.findOneAndUpdate({email},{fullname,contact,address,aadharNo,age},{new: true}).send("Manager Udated successfully");
-  //     if(!manager) return res.status(401).send("something went wrong")
-  //     res.send(manager);
-  //   }
-  //   catch(err){
-  //     console.log(err.messaage);
-  //   }
-  // }
-  
-  module.exports.registerTrainer = async (req, res) => {
-    try {
-      let { fullName, email, password, contact, photo, address, salary, age, trainerID } = req.body;
-  
-      let trainer = await trainerModel.findOne({email});
-      if(trainer)
-          return res.status(401).send("Trainer Alredy Exists");
-  
-      bcrypt.genSalt(10, (err,salt) =>{
-          bcrypt.hash(password, salt, async(err,hash)=>{
-              if(err) return res.send(err.message)
-              else{
-                  let trainer = await trainerModel.create({
-                      fullName,
-                      email,
-                      password: hash,
-                      contact,
-                      photo,
-                      address,
-                      salary,
-                      age,
-                      trainerID,
-                  })
-              }
-          })
-      })
-    } catch (err) {}
-  };
-
-  module.exports.updateTrainer = async (req,res) =>{
+  module.exports.updateManager = async (req,res) => {
     try{
-      let {fullname,email,contact,address,salary,age,trainerID} = req.body;
+      let {email,fullname,contact,address,aadharNo,age} = req.body;
+
+      let manager = await managerModel.findOneAndUpdate({email},{fullname,contact,address,aadharNo,age},{new: true}).send("Manager Udated successfully");
+      if(!manager) return res.status(401).send("something went wrong")
+      res.send(manager);
+    }
+    catch(err){
+      console.log(err.messaage);
+    }
+  }
   
-      let trainer = await trainerModel.findOneAndUpdate({email},{fullname,contact,address,salary,age,trainerID},{new: true});
-      if(!trainer) return res.status(401).send("Something Went Wrong");
-      res.send(trainer);
+ 
+  module.exports.updateManager = async (req,res)=>{
+    try{
+      let {managerId,salary,aadharNo,address,contact,email} = req.body;
+
+      let manager = await managerModel.findOneAndUpdate({email},{managerId,salary,aadharNo,address,contact},{new: true})
+      if(!manager) return res.status(401).send("Something went wrong");
+      res.send(manager);
     }
     catch(err){
       console.log(err.message);
     }
   }
 
-  module.exports.deleteTrainer = async (req,res) =>{
+  module.exports.deleteManager = async (req,res) =>{
     try{
       let {email} = req.body;
 
-      let trainer = await trainerModel.findOneAndDelete({email});
-      if(!trainer) return res.status(401).send("Something Went Wrong");
-      res.send("Trainer Deleted")
-
+      let manager = await managerModel.findOneAndDelete({email});
+      if(!manager) return res.status(401).send("Something went wrong");
+      res.send("Manager Deleted");
     }
     catch(err){
       console.log(err.message);
     }
   }
 
-  module.exports.listTrainers = async (req,res) =>{
-    try{
-      let trainerList = await trainerModel.find();
-      res.json(trainerList);
-    }
-    catch(err){
-      console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-  }
+// Route to mark attendance for a trainer
 
-  module.exports.listCustomers = async (req,res) =>{
+  module.exports.registerManager = async (req,res)=>{
     try{
-      let customerList = await customerModel.find();
-      res.json(trainerList);
-    }
-    catch(err){
-      console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-  }
-
+      let { fullName, email, password, contact, address, aadharNo, age, salary, photo, managerId } = req.body;
   
-  module.exports.logout = (req, res) => {
-    res.cookie("token");
-    res.redirect("/"); //home page
-  };
+      let manager = await managerModel.findOne({email: email});
+      if (manager)
+        return res.status(401).send("Manager Exists You Need to login ");
+  
+      bcrypt.genSalt(10,(err, salt) =>{
+        bcrypt.hash(password,salt, async (err,hash)=>{
+          if (err) return res.send(err.message);
+          else{
+            let manager = await managerModel.create({
+              email,
+              fullName,
+              contact,
+              address,
+              aadharNo,
+              age,
+              salary,
+              managerId,
+              photo,
+              password: hash
+            })
+          }
+        })
+      })
+  
+    }
+    catch(err){
+      console.log(err.message);
+    }
+  }

@@ -10,7 +10,6 @@ const trainerSchema = mongoose.Schema({
     salary: Number,
     age: Number,
     trainerID: String,
-    // Time: Time,
     trainningPlans: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'plan'
@@ -33,7 +32,6 @@ const trainerSchema = mongoose.Schema({
             },
         }
     ],
-
     createdAt: {
         type: Date,
         default: Date.now,

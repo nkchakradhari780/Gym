@@ -73,20 +73,90 @@ module.exports.registerCustomer = async (req, res) => {
       console.log(err);
     }
   }
+
+  module.exports.checkAttendence = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const customer = await customerModel.findById(email);
+        if (!trainer) {
+            return res.status(404).json({ message: 'Trainer not found' });
+        }
+
+        res.status(200).json(customer.attendance);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+  }
  
-  // module.exports.deleteCustomer = async (req,res) =>{
-  //   try{
-  //     let {email} = req.body;
+  module.exports.deleteCustomer = async (req,res) =>{
+    try{
+      let {email} = req.body;
 
-  //     let customer = await customerModel.findOneAndDelete({email});
-  //     res.send('customer deleted');
-  //   }
-  //   catch(err){
-  //     console.log(err.message);
-  //   }
-  // }
+      let customer = await customerModel.findOneAndDelete({email});
+      res.send('customer deleted');
+    }
+    catch(err){
+      console.log(err.message);
+    }
+  }
 
+  module.exports.customerDetails = async (req,res) =>{
+    try{
+      let {email} = req.body;
+
+      let customer = await customerModel.findOne({email});
+      res.json(customer);
+    }
+    catch(err){
+      console.log(err.message);
+    }
+  }
+
+   
+
+  module.exports.listCustomers = async (req,res) =>{
+    try{
+      let customerList = await customerModel.find();
+      res.json(customerList);
+    }
+    catch(err){
+      console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+  }
+
+  module.exports.customerAttendence = async (req,res) =>{
+    const { email } = req.body;
+    const { date, status } = req.body; // Expecting { date: 'YYYY-MM-DD', status: 'Present' or 'Absent' }
+    
+    try {
+        const customer = await customerModel.findOne(email);
+        if (!trainer) {
+            return res.status(404).json({ message: 'Trainer not found' });
+        }
+
+        // Check if attendance for the given date already exists
+        const existingAttendance = customer.attendance.find(att => att.date.toDateString() === new Date(date).toDateString());
+        if (existingAttendance) {
+            return res.status(400).json({ message: 'Attendance for this date already marked' });
+        }
+
+        // Add new attendance record
+        customer.attendance.push({ date: new Date(date), status });
+
+        await customer.save();
+        res.status(200).json({ message: 'Attendance marked successfully', trainer });
+    } 
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+  }
+
+  
   module.exports.logout = (req, res) => {
     res.cookie("token");
     res.redirect("/"); //home page
-  };  
+  };
