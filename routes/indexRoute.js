@@ -1,34 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const {loginOwner} = require('../controllers/ownerAuth')
+const {loginManager} = require('../controllers/managerAuth')
+const {loginCustomer} = require('../controllers/customerAuth')
+const {loginTrainer} = require('../controllers/trainerAuth');
+
 // const isAuthenticated = require('../middlewares/')
 
 // Home page
 router.get("/", (req, res) => {
     res.send("Welcome to the home page!");
 });
-
-// About Us page
-router.get("/aboutus", (req, res) => {
-    res.send("This is the About Us page");
-});
-
-// Our Trainers page
-router.get("/ourtrainers", (req, res) => {
-    res.send("Meet our trainers!");
-});
-
-// Plans page
-router.get("/plans", (req, res) => {
-    res.send("Here are our plans!");
-});
-
-// Services page
-router.get("/services", (req, res) => {
-    res.send("These are the services we offer");
-});
-
-
-
 
 router.get('/signup',(req,res)=>{
     res.render('signup');
@@ -48,6 +30,14 @@ router.get('/customerupdate',(req,res)=>{
 router.get('/customerdelete',(req,res)=>{
     res.render('delete');
 })
+
+router.post('/login/owner', loginOwner);
+
+router.post('/login/manager',loginManager);
+
+router.post('/login/customer', loginCustomer);
+
+router.post('/login/trainer', loginTrainer);
 
 
 module.exports = router;

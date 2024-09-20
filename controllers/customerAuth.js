@@ -6,7 +6,7 @@ const { generateToken } = require("../utils/generatetoken");
 
 module.exports.registerCustomer = async (req, res) => {
     try {
-      let { email, fullname, password, contact, photo, address, weight, age } = req.body;
+      let { email, fullname, password, contact, address, weight, age } = req.body;
   
       let customer = await customerModel.findOne({ email: email });
       if (customer)
@@ -24,10 +24,10 @@ module.exports.registerCustomer = async (req, res) => {
               weight,
               age,
               password: hash,
-              photo: req.file.buffer,
+              // photo: req.file.buffer,
             });
-            let token = generateToken(customer);
-            res.cookie("token", token);
+            // let token = generateToken(customer);
+            // res.cookie("token", token);
             res.send("customer created successfully");
           }
         });
@@ -59,6 +59,7 @@ module.exports.registerCustomer = async (req, res) => {
     }
   };
 
+
   module.exports.updateCustomer = async (req,res) =>{
     try{
       let { email, fullname, contact, address, weight, age}  = req.body;
@@ -73,6 +74,7 @@ module.exports.registerCustomer = async (req, res) => {
       console.log(err);
     }
   }
+
 
   module.exports.checkAttendence = async (req, res) => {
     const { email } = req.body;
@@ -89,6 +91,7 @@ module.exports.registerCustomer = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
   }
+
  
   module.exports.deleteCustomer = async (req,res) =>{
     try{
@@ -102,6 +105,7 @@ module.exports.registerCustomer = async (req, res) => {
     }
   }
 
+
   module.exports.customerDetails = async (req,res) =>{
     try{
       let {email} = req.body;
@@ -114,7 +118,6 @@ module.exports.registerCustomer = async (req, res) => {
     }
   }
 
-   
 
   module.exports.listCustomers = async (req,res) =>{
     try{
@@ -126,6 +129,7 @@ module.exports.registerCustomer = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
   }
+
 
   module.exports.customerAttendence = async (req,res) =>{
     const { email } = req.body;

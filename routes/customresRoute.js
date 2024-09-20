@@ -9,8 +9,7 @@ const {
     logout
 } = require('../controllers/customerAuth');
 
-
-router.post('/login', loginCustomer);
+router.get('/',customerDetails);
 
 router.get('/checkAttendence', checkAttendence);
 

@@ -2,12 +2,14 @@ const express = require('express')
 const router = express.Router();
 const upload = require('../config/multer-config');
 const {
-    loginTrainer,
-    updateTrainer,
-    logout,
     checkAttendence,
-    customerAttendence
+    logout,
 } = require('../controllers/trainerAuth');
+
+const {
+    customerAttendence,
+    listCustomers
+} = require('../controllers/customerAuth')
 
 const {
     updateEquipment,
@@ -16,16 +18,16 @@ const {
 } = require('../controllers/equipment');
 
 
-router.post('/login', loginTrainer);
-
 router.post('/logout',logout);
 
 // Route to get trainer's attendance records
 router.get('/trainer/attendance',checkAttendence);
 
-router.get('/customer',customerList);
+
+router.get('/customer',listCustomers);
 
 router.post('/customer/attendence',customerAttendence);
+
 
 router.get('/equipment', listEquipments);
 

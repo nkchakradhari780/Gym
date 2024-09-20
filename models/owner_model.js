@@ -11,7 +11,7 @@ const ownerSchema = mongoose.Schema({
     age: Number,
     gym: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: gym
+        ref: 'gym'
     }],
     
 });

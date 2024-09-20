@@ -5,7 +5,7 @@ const costumerSchema = mongoose.Schema({
     email: String,
     password: String,
     contact: Number,
-    photo: Buffer,
+    // photo: Buffer,
     address: String,
     weight: Number,
     age: Number,

@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router();
 const upload = require('../config/multer-config');
 const isLoggedin = require('../middlewares/isLoggedin');
+
 const {
     loginManager,
-    updateManager,
     logout
     
 } = require('../controllers/managerAuth');
@@ -40,8 +40,6 @@ const {
     listEquipments
 } = require('../controllers/equipment')
 
-
-router.post('/login',loginManager);
 
 // router.post('/update',updateManager);
 

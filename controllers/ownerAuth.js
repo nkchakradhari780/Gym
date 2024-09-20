@@ -26,14 +26,19 @@ module.exports.registerOwner = async (req,res)=>{
               aadharNo,
               age,
             })
+            console.json(owner);
+            res.send("Owner Created");
           }
         })
       })
     }
     catch(err){
       console.log(err.message);
+      res.send("Something Went Wrong ")
     }
   }
+  
+
   module.exports.loginOwner = async (req,res)=>{
     try{
       let {email, password } = req.body;
@@ -60,7 +65,7 @@ module.exports.registerOwner = async (req,res)=>{
 
   module.exports.logout = (req, res) => {
     res.cookie("token");
-    res.redirect("/"); //home page
+    // res.redirect("/"); //home page
   };
   
   

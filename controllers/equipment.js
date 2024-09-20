@@ -21,6 +21,7 @@ module.exports.addEquipment = async (req,res) =>{
     }
 }
 
+
 module.exports.updateEquipment = async (req,res) =>{
     try{
         let {id, name, status} = req.body;
@@ -34,8 +35,8 @@ module.exports.updateEquipment = async (req,res) =>{
     catch(err){
         console.log(err.message);
     }
-
 }
+
 
 module.exports.removeEquipment = async (req,res) =>{
     try{
@@ -47,9 +48,9 @@ module.exports.removeEquipment = async (req,res) =>{
     }
     catch(err){
         console.log(err.message);
-    }
-    
+    }   
 }
+
 
 module.exports.listEquipments = async (req,res) =>{
     try {

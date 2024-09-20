@@ -31,8 +31,8 @@ const { generateToken } = require("../utils/generatetoken");
     try {
       let { fullName, email, password, contact, photo, address, salary, age, trainerID } = req.body;
   
-      let trainer = await trainerModel.findOne({email});
-      if(trainer)
+      let existingTrainer = await trainerModel.findOne({email});
+      if(existingTrainer)
           return res.status(401).send("Trainer Alredy Exists");
   
       bcrypt.genSalt(10, (err,salt) =>{
@@ -50,6 +50,8 @@ const { generateToken } = require("../utils/generatetoken");
                       age,
                       trainerID,
                   })
+                  res.send("Trainer Created")
+                     .json(trainer)
               }
           })
       })
