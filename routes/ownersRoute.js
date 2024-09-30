@@ -15,7 +15,6 @@ const {
     updateManager,
     deleteManager,
     listManagers,
-    findManagerByNameOrEmail,
 } = require('../controllers/managerAuth')
 
 const {
@@ -35,13 +34,6 @@ const {
     checkCustomerAttendence,
     customerAttendence,
 } = require('../controllers/customerAuth');
-
-const {
-    createPlan,
-    updatePlan,
-    deletePlan,
-    listPlans
-} = require('../controllers/plan');
 
 const {
     // equipmentStatus,
@@ -78,14 +70,6 @@ router.get('/trainer/attendence', checkTrainerAttendence);
 router.post('/trainer/attendence/mark', trainerAttendence);
 
 
-router.get('/plan',listPlans);
-
-router.post('/plan/create',createPlan);
-
-router.post('/plan/delete',deletePlan);
-
-router.post('/plan/update',updatePlan);
-
 
 router.get('/customer',listCustomers);
 
@@ -100,6 +84,7 @@ router.get('/customer/attendance', checkCustomerAttendence);
 router.post('/customer/attendance/mark', customerAttendence);
 
 
+
 router.get('/equipment',listEquipments);
 
 router.post('/equipment/add',addEquipment);
@@ -107,6 +92,7 @@ router.post('/equipment/add',addEquipment);
 router.post('/equipment/update',updateEquipment);
 
 router.post('/equipment/remove',removeEquipment);
+
 
 
 router.post('/logout',logout);

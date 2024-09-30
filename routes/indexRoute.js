@@ -4,6 +4,7 @@ const {loginOwner} = require('../controllers/ownerAuth')
 const {loginManager} = require('../controllers/managerAuth')
 const {loginCustomer} = require('../controllers/customerAuth')
 const {loginTrainer} = require('../controllers/trainerAuth');
+const {listPlans} = require('../controllers/plan');
 
 // const isAuthenticated = require('../middlewares/')
 
@@ -38,6 +39,5 @@ router.post('/login/manager',loginManager);
 router.post('/login/customer', loginCustomer);
 
 router.post('/login/trainer', loginTrainer);
-
 
 module.exports = router;

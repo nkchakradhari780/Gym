@@ -11,7 +11,6 @@ const costumerSchema = mongoose.Schema({
     age: Number,
     startDate: Date,
     endDate: Date,
-    // time: String,
     joinedPlans:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'plan'

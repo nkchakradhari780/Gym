@@ -27,12 +27,6 @@ const {
     checkCustomerAttendence,
 } = require('../controllers/customerAuth');
 
-const {
-    createPlan,
-    updatePlan,
-    deletePlan,
-    listPlans
-} = require('../controllers/plan');
 
 const {
     equipmentStatus,
@@ -47,29 +41,21 @@ const {
 
 router.post('/trainer',listTrainers);
 
-router.post('/trainer/create',upload.single("photo"), registerTrainer);  
+router.post('/trainer/create', registerTrainer);  
 
 router.post('/trainer/update',updateTrainer);
 
 router.post('/trainer/delete',deleteTrainer);
 
-router.post('/trainer/attendence',trainerAttendence);
+router.get('/trainer/attendence', checkTrainerAttendence);
 
-router.post('/trainer/attendence/mark', checkTrainerAttendence);
+router.post('/trainer/attendence/mark', trainerAttendence);
 
-
-router.post('/plan',listPlans);
-
-router.post('/plan/create',createPlan);
-
-router.post('/plan/delete',deletePlan);
-
-router.post('/plan/update',updatePlan);
 
 
 router.post('/customer',listCustomers);
 
-router.post('/customer/create',upload.single("photo"), registerCustomer);
+router.post('/customer/create', registerCustomer);
 
 router.post('/customer/update',updateCustomer);
 

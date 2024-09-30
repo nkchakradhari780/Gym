@@ -9,6 +9,7 @@ const customerRoute = require('./routes/customresRoute')
 const trainersRoute = require('./routes/trainersRoute')
 const managerRoute = require('./routes/managersRoute')
 const ownerRoute = require('./routes/ownersRoute')
+const plansRoute = require('./routes/plansRoute')
 const isLoggedin = require('./middlewares/isLoggedin')
 
 require('dotenv').config();
@@ -24,6 +25,8 @@ app.use('/customer',customerRoute);
 app.use('/trainer', trainersRoute);
 app.use('/manager',managerRoute);
 app.use('/owner',ownerRoute);
+app.use('/plan',plansRoute);
+
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
