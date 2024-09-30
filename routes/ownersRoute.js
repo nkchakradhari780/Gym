@@ -14,6 +14,8 @@ const {
     registerManager,
     updateManager,
     deleteManager,
+    listManagers,
+    findManagerByNameOrEmail,
 } = require('../controllers/managerAuth')
 
 const {
@@ -21,7 +23,8 @@ const {
     updateTrainer,
     deleteTrainer,
     listTrainers,
-    trainerAttendence
+    trainerAttendence,
+    checkTrainerAttendence,
 } = require('../controllers/trainerAuth')
 
 const {
@@ -29,7 +32,8 @@ const {
     registerCustomer,
     updateCustomer,
     listCustomers,
-    customerAttendence
+    checkCustomerAttendence,
+    customerAttendence,
 } = require('../controllers/customerAuth');
 
 const {
@@ -40,36 +44,41 @@ const {
 } = require('../controllers/plan');
 
 const {
-    equipmentStatus,
+    // equipmentStatus,
     addEquipment,
     updateEquipment,
     removeEquipment,
     listEquipments
 } = require('../controllers/equipment')
 
-router.post('/signup', registerOwner);
+// router.post('/signup', registerOwner);
 
 // router.post('/update',updateOwner);
 
-router.post('/manager/create',upload.single("photo"), registerManager);
+router.get('/manager',listManagers);
+
+router.post('/manager/create', registerManager);
 
 router.post('/manager/update',updateManager);
 
 router.post('/manager/delete',deleteManager);
 
 
-router.post('/trainer',listTrainers);
 
-router.post('/trainer/create',upload.single("photo"), registerTrainer);  
+router.get('/trainer',listTrainers);
+
+router.post('/trainer/create', registerTrainer);  
 
 router.post('/trainer/update',updateTrainer);
 
 router.post('/trainer/delete',deleteTrainer);
 
-router.post('/trainer/attendence',trainerAttendence);
+router.get('/trainer/attendence', checkTrainerAttendence);
+
+router.post('/trainer/attendence/mark', trainerAttendence);
 
 
-router.post('/plan',listPlans);
+router.get('/plan',listPlans);
 
 router.post('/plan/create',createPlan);
 
@@ -78,28 +87,28 @@ router.post('/plan/delete',deletePlan);
 router.post('/plan/update',updatePlan);
 
 
-router.post('/customer',listCustomers);
+router.get('/customer',listCustomers);
 
 router.post('/customer/create', registerCustomer);
 
 router.post('/customer/update',updateCustomer);
 
-router.post('/customer/deleteCustomer',deleteCustomer);
+router.post('/customer/delete',deleteCustomer);
 
-router.post('/customer/attendence',customerAttendence);
+router.get('/customer/attendance', checkCustomerAttendence);
+
+router.post('/customer/attendance/mark', customerAttendence);
 
 
 router.get('/equipment',listEquipments);
 
-router.post('/equipment/create',addEquipment);
+router.post('/equipment/add',addEquipment);
 
 router.post('/equipment/update',updateEquipment);
 
 router.post('/equipment/remove',removeEquipment);
 
-router.get('/equipment/status',equipmentStatus);
 
- 
 router.post('/logout',logout);
 
 

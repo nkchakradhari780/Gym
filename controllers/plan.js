@@ -54,19 +54,28 @@ module.exports.updatePlan = async (req,res) =>{
         let existingPlan = await planModel.findOneAndUpdate({planID},{level,planName,price,duration,category},{new: true});
         if(!existingPlan)
           return res.status(401).send("Something Went wrong");
+        res.send(existingPlan)
     }
     catch(err){
         console.log(err.message);
     }
 }
 
-module.exports.listPlans = async (req,res) =>{
-    try{
-        let plansList = await planModel.find();
-        res.json(plansList);
-    }
-    catch(err){
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-}
+module.exports.listPlans = async (req, res) => {
+  try {
+    // Fetch list of all plans
+    let plansList = await planModel.find();
+    
+    // Get the total count of plans
+    let totalPlans = await planModel.countDocuments();
+
+    // Send response with the plans list and total count
+    res.status(200).json({
+      total: totalPlans,
+      plans: plansList
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

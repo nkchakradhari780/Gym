@@ -4,14 +4,14 @@ const upload = require('../config/multer-config');
 const isLoggedin = require('../middlewares/isLoggedin');
 const {
     loginCustomer,
-    checkAttendence,
+    checkCustomerAttendence,
     customerDetails,
     logout
 } = require('../controllers/customerAuth');
 
 router.get('/',customerDetails);
 
-router.get('/checkAttendence', checkAttendence);
+router.get('/checkAttendence', checkCustomerAttendence);
 
 router.post('/logout',logout);
 

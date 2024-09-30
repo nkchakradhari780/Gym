@@ -65,6 +65,7 @@ module.exports.registerOwner = async (req,res)=>{
 
   module.exports.logout = (req, res) => {
     res.cookie("token");
+    res.send("Logged Out");
     // res.redirect("/"); //home page
   };
   

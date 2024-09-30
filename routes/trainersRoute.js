@@ -33,6 +33,6 @@ router.get('/equipment', listEquipments);
 
 router.post('/equipment/update',updateEquipment);
 
-router.get('/equipment/status',equipmentStatus);
+// router.get('/equipment/status',equipmentStatus);
 
 module.exports = router;
