@@ -19,19 +19,20 @@ const {
 
 
 // Create a new plan
-router.post('/plan/create', createPlan);
+router.post('/create', createPlan);
 
 // Update a plan by ID
-router.put('/plan/update/:id', updatePlan);
+router.put('/update/:id', updatePlan);
 
 // Delete a plan by ID
-router.delete('/plan/delete/:id', deletePlan);
+router.delete('/delete/:id', deletePlan);
+
+// Get a plan by ID
+router.get('/plan/:id', getPlanById); 
 
 // List all plans
 router.get('/', listPlans);
 
-// Get a plan by ID
-router.get('/plan/:id', getPlanById); 
 
 
 // Route to create a new diet plan
