@@ -184,9 +184,4 @@ module.exports.trainerAttendence = async (req,res) =>{
     console.error(err);
     res.status(500).json({message: "Server error"})
   }
-}
-
-module.exports.logout = (req, res) => {
-  res.cookie("token");
-  res.redirect("/"); //home page
 };

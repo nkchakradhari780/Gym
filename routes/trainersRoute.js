@@ -18,8 +18,6 @@ const {
 } = require('../controllers/equipment');
 
 
-router.post('/logout',logout);
-
 // Route to get trainer's attendance records
 router.get('/trainer/attendance',checkAttendence);
 

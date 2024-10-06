@@ -75,6 +75,5 @@ router.post('/equipment/update',updateEquipment);
 router.post('/equipment/remove',removeEquipment);
 
 
-router.post('/logout',logout);
 
 module.exports = router;

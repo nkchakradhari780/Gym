@@ -13,7 +13,5 @@ router.get('/',customerDetails);
 
 router.get('/checkAttendence', checkCustomerAttendence);
 
-router.post('/logout',logout);
-
 
 module.exports = router;
