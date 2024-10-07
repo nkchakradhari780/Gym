@@ -39,7 +39,7 @@ const {
 
 // router.post('/update',updateManager);
 
-router.post('/trainer',listTrainers);
+router.get('/trainer',listTrainers);
 
 router.post('/trainer/create', registerTrainer);  
 
@@ -53,7 +53,7 @@ router.post('/trainer/attendence/mark', trainerAttendence);
 
 
 
-router.post('/customer',listCustomers);
+router.get('/customer',listCustomers);
 
 router.post('/customer/create', registerCustomer);
 

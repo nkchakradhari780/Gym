@@ -10,18 +10,25 @@ module.exports.loginTrainer = async (req, res) => {
 
     let trainer = await trainerModel.findOne({ email });
     if (!trainer) return res.send("Email or password is incorrect");
+
     bcrypt.compare(password, trainer.password, (err, result) => {
+      if (err)
+        return res.status(500).send("Error occurred while comparing passwords");
       if (result) {
-        let token = generateToken(trainer);
-        res.cookie("token", token);
-        res.send("Trainer loged in");
+        let token = jwt.sign({trainerId: trainer._id},process.env.JWT_KEY);
+        res.cookie("token", token,{
+            httpOnly: true,
+            secrure: false,
+            maxAge: 3600000
+        });
+        res.status(200).json({success: true, message: "Trainer LoggedIN Successfully",trainer,token})
       } else {
-        req.send("Email or password is incorrect");
-        return res.redirect("/");
+        return res.status(401).send("Email or password is incorrect");
       }
     });
   } catch (err) {
     console.log(err.message);
+    res.status(500).send("Server Error")
   }
 };
 

@@ -43,10 +43,17 @@ module.exports.loginCustomer = async (req, res) => {
     let customer = await customerModel.findOne({ email });
     if (!customer) return res.send("Email or password is incorrect");
     bcrypt.compare(password, customer.password, (err, result) => {
+      if (err)
+        return res.status(500).send("Error occurred while comparing passwords");
+   
       if (result) {
-        let token = generateToken(customer);
-        res.cookie("token", token);
-        res.send("customer loged in");
+        let token = jwt.sign({customerId: customer._id},process.env.JWT_KEY);
+        res.cookie("token", token,{
+            httpOnly: true,
+            secrure: false,
+            maxAge: 3600000 
+        });
+        res.status(200).json({success: true, message: "Customer LoggedIN Successfully",customer,token})
       } else {
         req.send("Email or password is incorrect");
         return res.redirect("/");
@@ -147,9 +154,9 @@ module.exports.deleteCustomer = async (req, res) => {
 
 module.exports.customerDetails = async (req, res) => {
   try {
-    let { email } = req.body;
+    let { id } = req.params.id;
 
-    let customer = await customerModel.findOne({ email });
+    let customer = await customerModel.findOne({ id });
     res.json(customer);
   } catch (err) {
     console.log(err.message);

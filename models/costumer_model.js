@@ -11,6 +11,11 @@ const costumerSchema = mongoose.Schema({
     age: Number,
     startDate: Date,
     endDate: Date,
+    role: {
+        type: String,
+        enum: ['owner', 'trainer', 'manager', 'customer'],
+        default: 'customer'
+    },
     joinedPlans:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'plan'

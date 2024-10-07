@@ -11,6 +11,11 @@ const managerSchema = mongoose.Schema({
     salary: Number,
     Photo: Buffer,
     managerId: String,
+    role: {
+        type: String,
+        enum: ['owner', 'trainer', 'manager', 'customer'],
+        default: 'manager'
+    },
     trainers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'trainer'

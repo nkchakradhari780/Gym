@@ -9,7 +9,7 @@ const {
     logout
 } = require('../controllers/customerAuth');
 
-router.get('/',customerDetails);
+router.get('/:id',customerDetails);
 
 router.get('/checkAttendence', checkCustomerAttendence);
 

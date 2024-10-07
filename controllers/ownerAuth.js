@@ -47,9 +47,13 @@ module.exports.registerOwner = async (req,res)=>{
       if(!owner) return res.send("Email or password is incorrect");
       bcrypt.compare(password, owner.password, (err,result)=>{
         if(result){
-          let token = generateToken(owner);
-          res.cookie("token", token);
-          res.send("Owner logged in");
+          let token = jwt.sign({ownerId: owner._id},process.env.JWT_KEY);
+          res.cookie("token", token,{
+            httpOnly: true,
+            secrure: false,
+            maxAge: 3600000
+          });
+          res.status(200).json({success: true, message: "Owner LoggedIN Successfully",owner,token})
         }
         else{
           req.send("Email or password is incorrect");

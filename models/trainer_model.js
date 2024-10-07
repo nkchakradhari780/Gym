@@ -10,6 +10,11 @@ const trainerSchema = mongoose.Schema({
     salary: Number,
     age: Number,
     trainerID: String,
+    role: {
+        type: String,
+        enum: ['owner', 'trainer', 'manager', 'customer'],
+        default: 'trainer'
+    },
     trainningPlans: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'plan'

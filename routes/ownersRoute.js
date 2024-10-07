@@ -43,7 +43,6 @@ const {
     listEquipments
 } = require('../controllers/equipment')
 
-// router.post('/signup', registerOwner);
 
 // router.post('/update',updateOwner);
 
@@ -92,6 +91,7 @@ router.post('/equipment/add',addEquipment);
 router.post('/equipment/update',updateEquipment);
 
 router.post('/equipment/remove',removeEquipment);
+
 
 
 module.exports = router;

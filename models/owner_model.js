@@ -9,6 +9,11 @@ const ownerSchema = mongoose.Schema({
     address: String,
     aadharNo: String,
     age: Number,
+    role: {
+        type: String,
+        enum: ['owner', 'trainer', 'manager', 'customer'],
+        default: 'owner'
+    },
     gym: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'gym'

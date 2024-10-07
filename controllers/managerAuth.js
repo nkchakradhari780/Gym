@@ -15,9 +15,13 @@ module.exports.loginManager = async (req, res) => {
       if (err)
         return res.status(500).send("Error occurred while comparing passwords");
       if (result) {
-        let token = generateToken(manager); // Changed 'trainer' to 'manager'
-        res.cookie("token", token);
-        return res.send("Manager logged in");
+        let token = jwt.sign({managerId: manager._id},process.env.JWT_KEY); // Changed 'trainer' to 'manager'
+        res.cookie("token", token,{
+            httpOnly: true,
+            secrure: false,
+            maxAge: 3600000
+        });
+        res.status(200).json({success: true, message: "Manager LoggedIN Successfully",manager,token})
       } else {
         return res.status(401).send("Email or password is incorrect");
       }
@@ -107,13 +111,10 @@ module.exports.registerManager = async (req, res) => {
 
 module.exports.listManagers = async (req, res) => {
   try {
-    // Fetch list of all managers
     let managerList = await managerModel.find();
     
-    // Get the total count of managers
     let totalManagers = await managerModel.countDocuments();
 
-    // Send response with the manager list and total count
     res.status(200).json({
       total: totalManagers,
       managers: managerList
