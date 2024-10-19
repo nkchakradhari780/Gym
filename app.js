@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser')
 const db = require('./config/mongoose-connection')
+const cors = require('cors');
 
 const indexRoute = require('./routes/indexRoute')
 const customerRoute = require('./routes/customresRoute')
@@ -23,6 +24,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,"public")));
 app.set("view engine","ejs");
 app.use(cookieParser());
+app.use(cors());
 
 app.use('/',indexRoute)
 
@@ -33,6 +35,6 @@ app.use('/owner',isOwner,ownerRoute);
 app.use('/plan',plansRoute);
 
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});  
+app.listen(3001, () => {
+    console.log('Server is running on port 3001');
+});
