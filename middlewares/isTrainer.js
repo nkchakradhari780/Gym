@@ -11,7 +11,7 @@ module.exports = async (req,res,next) =>{
 
         const decoded = jwt.verify(token,process.env.JWT_KEY)
         const trainer = await trainerModel
-            .findById(decoded.trainerId)
+            .findById(decoded.Id)
             .select("-password");
 
 
@@ -24,6 +24,7 @@ module.exports = async (req,res,next) =>{
         }
 
         req.trainer = trainer;
+        req.role = decoded.role;
         next();
     } 
     catch (error) {

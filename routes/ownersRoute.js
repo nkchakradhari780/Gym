@@ -43,6 +43,27 @@ const {
     listEquipments
 } = require('../controllers/equipment')
 
+const {
+    createPlan,
+    updatePlan,
+    deletePlan,
+    listPlans,
+    getPlanById
+} = require('../controllers/plan');
+
+const { 
+    createDietPlan, 
+    getAllDietPlans, 
+    getDietPlanById, 
+    updateDietPlan, 
+    deleteDietPlan 
+} = require('../controllers/plan');
+
+const {
+    sendAnnouncement
+} = require('../controllers/AnnouncementsAuth')
+
+
 
 // router.post('/update',updateOwner);
 
@@ -91,6 +112,34 @@ router.post('/equipment/add',addEquipment);
 router.post('/equipment/update',updateEquipment);
 
 router.post('/equipment/remove',removeEquipment);
+
+
+
+router.post('/create', createPlan);
+
+router.put('/update/:id', updatePlan);
+
+router.delete('/delete/:id', deletePlan);
+
+router.get('/plan/:id', getPlanById); 
+
+router.get('/', listPlans);
+
+
+
+router.post('/diteplans/create', createDietPlan);
+
+router.get('/diteplans/', getAllDietPlans);
+
+router.get('/diteplans/:id', getDietPlanById);
+
+router.put('/diteplans/:id', updateDietPlan);
+
+router.delete('/diteplans/:id', deleteDietPlan);
+
+
+
+router.post('/sendannouncement',sendAnnouncement);
 
 
 

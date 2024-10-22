@@ -17,6 +17,8 @@ const {
     equipmentStatus,
 } = require('../controllers/equipment');
 
+const { getAnnouncement } = require('../controllers/AnnouncementsAuth');
+
 
 // Route to get trainer's attendance records
 router.get('/trainer/attendance',checkAttendence);
@@ -31,6 +33,7 @@ router.get('/equipment', listEquipments);
 
 router.post('/equipment/update',updateEquipment);
 
-// router.get('/equipment/status',equipmentStatus);
+
+router.get('/announcement',getAnnouncement)
 
 module.exports = router;

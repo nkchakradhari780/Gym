@@ -11,8 +11,9 @@ module.exports = async (req,res,next) =>{
 
         const decoded = jwt.verify(token,process.env.JWT_KEY)
         const manager = await managerModel
-            .findById(decoded.managerId)
+            .findById(decoded.Id)
             .select("-password");
+
 
         if(!manager){
             return res.status(401).json({message: "Manager Not Found"})
@@ -23,6 +24,8 @@ module.exports = async (req,res,next) =>{
         }
         
         req.manager = manager;
+        req.role = decoded.role;
+        
         next();
     } 
     catch (error) {

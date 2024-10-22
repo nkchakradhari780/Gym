@@ -11,7 +11,7 @@ module.exports = async (req,res,next) =>{
 
         const decoded = jwt.verify(token,process.env.JWT_KEY)
         const customer = await customerModel
-            .findById(decoded.customerId)
+            .findById(decoded.Id)
             .select("-password");
 
         if(!customer){
@@ -23,6 +23,7 @@ module.exports = async (req,res,next) =>{
         }
         
         req.customer = customer;
+        req.role = decoded.role;
         next();
     } 
     catch (error) {

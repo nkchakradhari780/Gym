@@ -11,7 +11,7 @@ module.exports = async (req,res,next) =>{
 
         const decoded = jwt.verify(token,process.env.JWT_KEY)
         const owner = await ownerModel
-            .findById(decoded.ownerId)
+            .findById(decoded.Id)
             .select("-password");
         
         if(!owner){
@@ -25,6 +25,7 @@ module.exports = async (req,res,next) =>{
         
 
         req.owner = owner;
+        
         next();
     } 
     catch (error) {

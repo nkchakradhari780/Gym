@@ -1,10 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const {registerOwner} = require('../controllers/ownerAuth')
-const {loginHandler} = require('../controllers/loginAuth')
+const {
+    registerOwner,
+    loginOwner
+} = require('../controllers/ownerAuth')
+const {loginHandler} = require('../controllers/loginAuth');
+const { loginManager } = require('../controllers/managerAuth');
 
 
 router.post('/login', loginHandler);
+
+router.post('/login/owner',loginOwner)
+
+router.post('/login/manager',loginManager)
 
 // console.log(process.env.NODE_ENV);
 if(process.env.NODE_ENV === 'development'){
