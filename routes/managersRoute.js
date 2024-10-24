@@ -5,8 +5,8 @@ const isLoggedin = require('../middlewares/isLoggedin');
 
 const {
     loginManager,
-    logout
-    
+    logout,
+    managerDetails
 } = require('../controllers/managerAuth');
 
 const {
@@ -58,6 +58,8 @@ const {
 
 // router.post('/update',updateManager);
 
+router.get('/',managerDetails)
+
 router.get('/trainer',listTrainers);
 
 router.post('/trainer/create', registerTrainer);  
@@ -94,15 +96,15 @@ router.post('/equipment/update',updateEquipment);
 router.post('/equipment/remove',removeEquipment);
 
 
-router.post('/create', createPlan);
+router.post('/plan/create', createPlan);
 
-router.put('/update/:id', updatePlan);
+router.put('/plan/update/:id', updatePlan);
 
-router.delete('/delete/:id', deletePlan);
+router.delete('/plan/delete/:id', deletePlan);
 
 router.get('/plan/:id', getPlanById); 
 
-router.get('/', listPlans);
+router.get('/plan', listPlans);
 
 
 

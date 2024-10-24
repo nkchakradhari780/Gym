@@ -1,29 +1,49 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const managerSchema = mongoose.Schema({
-    fullName: String,
-    email: String,
-    password: String,
-    contact: Number,
-    address: String,
-    aadharNo: String,
-    age: Number,
-    salary: Number,
-    Photo: Buffer,
-    managerId: String,
-    role: {
-        type: String,
-        enum: ['owner', 'trainer', 'manager', 'customer'],
-        default: 'manager'
+  fullName: { 
+    type: String, 
+    required: true 
+  },
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true 
+  },
+  password: { 
+    type: String, 
+    required: true 
+  },
+  contact: { 
+    type: Number, 
+    required: true 
+  },
+  address: { 
+    type: String 
+  },
+  aadharNo: { 
+    type: String ,
+    required: true
+  },
+  age: { type: Number },
+  salary: { type: Number },
+  Photo: { type: Buffer },
+  managerId: { type: String },
+  joinDate: {
+    type: Date,
+    default: Date.now, // Corrected default for date
+  },
+  gender: {
+    type: String,
+    enum: ["male", "female", "other"], // Corrected enum syntax
+    required: true,
+  },
+  trainers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "trainer",
     },
-    trainers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'trainer'
-    }],
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-})
+  ],
+});
 
 module.exports = mongoose.model("manager", managerSchema);

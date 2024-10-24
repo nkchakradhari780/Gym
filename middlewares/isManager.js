@@ -25,6 +25,7 @@ module.exports = async (req,res,next) =>{
         
         req.manager = manager;
         req.role = decoded.role;
+        req.email = decoded.email;
         
         next();
     } 

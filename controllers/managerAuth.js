@@ -125,4 +125,23 @@ module.exports.listManagers = async (req, res) => {
   }
 };
 
+module.exports.managerDetails = async (req,res) => {
+  try {
+    email = req.email;
 
+    let manager = await managerModel.findOne({email})
+    if(!manager){
+      return res
+        .status(404)
+        .send("Manager Not Found")
+    }
+
+    res.status(200).json({
+      manager
+    })
+
+  }catch (err){
+    console.log(err);
+    res.status(500).json({message: "Server error"})
+  }
+}

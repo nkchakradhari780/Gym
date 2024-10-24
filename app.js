@@ -28,6 +28,7 @@ app.use(cors({
     origin: 'http://localhost:3000', // Your frontend URL
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   }));
+  
 app.use('/',indexRoute)
 
 app.get('/loginpage',(req,res) =>{

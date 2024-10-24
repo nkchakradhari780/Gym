@@ -38,7 +38,7 @@ module.exports.loginHandler = async (req, res) =>{
         if(err)
           return res.status(500).send("Error occured while comparing passwords")
         if(result){
-          let token = jwt.sign({Id: user._id, role: role},process.env.JWT_KEY);
+          let token = jwt.sign({Id: user._id, role: role, email: email},process.env.JWT_KEY);
           res.cookie("token", token,{
             httpOnly: true,
             secrure: false,
