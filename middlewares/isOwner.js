@@ -18,12 +18,12 @@ module.exports = async (req,res,next) =>{
             return res.status(401).json({message: "Owner Not Found"})
         }
 
-        if(owner.role !== 'owner'){
+        if(owner.role !== 'admin'){
             return res.status(403).json({message: "Unauthorized Owner"})
         }
 
-        
-
+        req.role = decoded.role;
+        req.email = decoded.email;
         req.owner = owner;
         
         next();

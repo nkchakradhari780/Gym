@@ -10,6 +10,11 @@ const trainerSchema = mongoose.Schema({
     salary: Number,
     age: Number,
     trainerID: String,
+    gender: {
+        type: String,
+        enum: ["male", "female", "other"], // Corrected enum syntax
+        required: true,
+    },
     role: {
         type: String,
         enum: ['owner', 'trainer', 'manager', 'customer'],

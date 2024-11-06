@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ownerSchema = mongoose.Schema({
-    fullname: String,
+    fullName: String,
     email: String,
     password: String,
     contact: Number,
@@ -11,7 +11,7 @@ const ownerSchema = mongoose.Schema({
     age: Number,
     role: {
         type: String,
-        enum: ['owner', 'trainer', 'manager', 'customer'],
+        enum: ['admin', 'trainer', 'manager', 'customer'],
         default: 'owner'
     },
     gym: [{

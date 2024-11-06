@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const costumerSchema = mongoose.Schema({
-    fullname: String,
+    fullName: String,
     email: String,
     password: String,
     contact: Number,
@@ -11,6 +11,11 @@ const costumerSchema = mongoose.Schema({
     age: Number,
     startDate: Date,
     endDate: Date,
+    gender: {
+        type: String,
+        enum: ["male", "female", "other"], // Corrected enum syntax
+        required: true,
+      },
     role: {
         type: String,
         enum: ['owner', 'trainer', 'manager', 'customer'],

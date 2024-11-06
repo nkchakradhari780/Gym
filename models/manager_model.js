@@ -38,6 +38,11 @@ const managerSchema = mongoose.Schema({
     enum: ["male", "female", "other"], // Corrected enum syntax
     required: true,
   },
+  role: {
+    type: String,
+    enum: ['owner', 'trainer', 'manager', 'customer'],
+    default: 'customer'
+  },
   trainers: [
     {
       type: mongoose.Schema.Types.ObjectId,

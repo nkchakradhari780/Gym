@@ -7,7 +7,8 @@ const {
     registerOwner,
     loginOwner,
     updateOwner,
-    logout
+    logout,
+    ownerDetails
 } = require('../controllers/ownerAuth');
 
 const {
@@ -66,6 +67,8 @@ const {
 
 
 // router.post('/update',updateOwner);
+
+router.get('/',ownerDetails)
 
 router.get('/manager',listManagers);
 

@@ -1,74 +1,102 @@
 const equipmentModel = require('../models/equipment_model');
 
-module.exports.addEquipment = async (req,res) =>{
+module.exports.addEquipment = async (req, res) => {
 
-    try{
-        let {id, name, status} = req.body;
-    
-        let existingEquipment = await equipmentModel.findOne({id});
-        if(existingEquipment)
-            return res.status(401).send('Equipment With This ID already Exists');
-    
+    console.log(req.body)
+    try {
+        let { id, name, type, brand, purchaseDate, purchasePrice, maintenanceDate, condition, location, status, description, quantity } = req.body;
+
+        let existingEquipment = await equipmentModel.findOne({ id });
+        if (existingEquipment) {
+            return res.status(401).send('Equipment with this ID already exists');
+        }
+
         let newEquipment = await equipmentModel.create({
             id,
             name,
-            status
-        })
-        res.send(newEquipment);
-    }
-    catch(err){
-        console.log(err.message);
-    }
-}
+            type,
+            brand,
+            purchaseDate,
+            purchasePrice,
+            maintenanceDate,
+            condition,
+            location,
+            status,
+            description,
+            quantity // Include quantity
+        });
 
+        res.status(201).send(newEquipment);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+};
 
-module.exports.updateEquipment = async (req,res) =>{
-    try{
-        let {id, name, status} = req.body;
-    
-        let existingEquipment = await equipmentModel.findOneAndUpdate({id},{status},{new: true});
-        if(!existingEquipment)
-            return res.status(401).send('Equipment with this id not found');
+module.exports.updateEquipment = async (req, res) => {
+    try {
+        let { id, name, type, brand, purchaseDate, purchasePrice, maintenanceDate, condition, location, status, description, quantity } = req.body;
+
+        let existingEquipment = await equipmentModel.findOneAndUpdate(
+            { id },
+            {
+                name,
+                type,
+                brand,
+                purchaseDate,
+                purchasePrice,
+                maintenanceDate,
+                condition,
+                location,
+                status,
+                description,
+                quantity // Update quantity if provided
+            },
+            { new: true }
+        );
+
+        if (!existingEquipment) {
+            return res.status(404).send('Equipment with this ID not found');
+        }
 
         res.send(existingEquipment);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
     }
-    catch(err){
-        console.log(err.message);
+};
+
+module.exports.removeEquipment = async (req, res) => {
+    try {
+        let { id } = req.body;
+
+        let equipment = await equipmentModel.findOneAndDelete({ id });
+        if (!equipment) {
+            return res.status(404).send('Equipment not found');
+        }
+
+        res.send("Equipment deleted");
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
     }
-}
-
-
-module.exports.removeEquipment = async (req,res) =>{
-    try{
-        let {id} = req.body;
-
-        let Equipment = await equipmentModel.findOneAndDelete({id});
-        if(!Equipment) 
-            return res.status(401).send('Something Went Wrong');
-        res.send("Equipment Deleted")
-    }
-    catch(err){
-        console.log(err.message);
-    }   
-}
-
+};
 
 module.exports.listEquipments = async (req, res) => {
     try {
-      // Fetch list of all equipment
-      const equipmentList = await equipmentModel.find();
-      
-      // Get the total count of equipment
-      const totalEquipments = await equipmentModel.countDocuments();
-  
-      // Send response with the equipment list and total count
-      res.status(200).json({
-        total: totalEquipments,
-        equipments: equipmentList
-      });
+        // Fetch list of all equipment
+        const equipmentList = await equipmentModel.find();
+        
+        // Get the total count of equipment
+        const totalEquipments = await equipmentModel.countDocuments();
+
+        // Send response with the equipment list and total count
+        res.status(200).json({
+            total: totalEquipments,
+            equipments: equipmentList
+        });
     } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Server error' });
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
     }
-  };
-  
+};

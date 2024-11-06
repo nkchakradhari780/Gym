@@ -14,12 +14,15 @@ module.exports = async (req,res,next) =>{
             .findById(decoded.Id)
             .select("-password");
 
+        console.log(manager);
+        console.log(manager.role)
 
         if(!manager){
             return res.status(401).json({message: "Manager Not Found"})
         }
 
         if(manager.role !== 'manager'){
+            console.log(manager.role)
             return res.status(403).json({message: "Unauthorized Manager"})
         }
         
