@@ -100,3 +100,23 @@ module.exports.listEquipments = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+module.exports.equipmentDetails = async (req,res) => {
+    const { id } = req.params;
+
+  try {
+    // Find equipment by the unique 'id' field
+    const equipment = await equipmentModel.findOne({ id });
+
+    // Check if the equipment exists
+    if (!equipment) {
+      return res.status(404).json({ error: 'Equipment not found' });
+    }
+
+    // Send equipment data in response
+    res.status(200).json(equipment);
+  } catch (error) {
+    console.error('Error fetching equipment:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}

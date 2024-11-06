@@ -17,7 +17,7 @@ const trainerSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['owner', 'trainer', 'manager', 'customer'],
+        enum: ['admin', 'trainer', 'manager', 'member'],
         default: 'trainer'
     },
     trainningPlans: [{

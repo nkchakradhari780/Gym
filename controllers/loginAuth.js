@@ -14,7 +14,7 @@ module.exports.loginHandler = async (req, res) =>{
 
 
     switch (role) {
-      case 'customer':
+      case 'member':
         user = await customerModel.findOne({ email });
         break;
       case 'manager':

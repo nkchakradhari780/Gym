@@ -41,7 +41,8 @@ const {
     addEquipment,
     updateEquipment,
     removeEquipment,
-    listEquipments
+    listEquipments,
+    equipmentDetails,
 } = require('../controllers/equipment')
 
 const {
@@ -112,9 +113,11 @@ router.get('/equipment',listEquipments);
 
 router.post('/equipment/add',addEquipment);
 
-router.post('/equipment/update',updateEquipment);
+router.put('/equipment/update',updateEquipment);
 
 router.post('/equipment/remove',removeEquipment);
+
+router.get('/equipment/:id',equipmentDetails)
 
 
 
