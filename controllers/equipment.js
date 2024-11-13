@@ -35,7 +35,8 @@ module.exports.addEquipment = async (req, res) => {
 
 module.exports.updateEquipment = async (req, res) => {
     try {
-        let { id, name, type, brand, purchaseDate, purchasePrice, maintenanceDate, condition, location, status, description, quantity } = req.body;
+        let { name, type, brand, purchaseDate, purchasePrice, maintenanceDate, condition, location, status, description, quantity } = req.body;
+        let {id} = req.params;
 
         let existingEquipment = await equipmentModel.findOneAndUpdate(
             { id },
@@ -65,22 +66,27 @@ module.exports.updateEquipment = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
-
 module.exports.removeEquipment = async (req, res) => {
     try {
-        let { id } = req.body;
+        const { id } = req.params; // Use req.params to get the ID from the URL
 
-        let equipment = await equipmentModel.findOneAndDelete({ id });
+        // Attempt to find and delete the equipment using the provided id
+        let equipment = await equipmentModel.findOneAndDelete(id );
+        
         if (!equipment) {
+            // If no equipment is found, return 404
             return res.status(404).send('Equipment not found');
         }
 
-        res.send("Equipment deleted");
+        // If the equipment is found and deleted, send success message
+        res.status(200).send("Equipment deleted successfully");
     } catch (err) {
         console.error(err.message);
+        // In case of any error, send a 500 server error response
         res.status(500).send('Server error');
     }
 };
+
 
 module.exports.listEquipments = async (req, res) => {
     try {

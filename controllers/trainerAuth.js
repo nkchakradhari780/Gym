@@ -43,6 +43,8 @@ module.exports.registerTrainer = async (req, res) => {
       salary,
       age,
       trainerID,
+      gender,
+      speciality,
     } = req.body;
 
     let existingTrainer = await trainerModel.findOne({ email });
@@ -64,6 +66,8 @@ module.exports.registerTrainer = async (req, res) => {
             salary,
             age,
             trainerID,
+            speciality,
+            gender,
           });
           res.send("Trainer Created");
         }
@@ -74,11 +78,11 @@ module.exports.registerTrainer = async (req, res) => {
 
 module.exports.updateTrainer = async (req, res) => {
   try {
-    let { salary,  address, contact, email } = req.body;
+    let { fullName,password,age, joiningDate, speciality,salary,  address, contact, email } = req.body;
 
     let trainer = await trainerModel.findOneAndUpdate(
       { email },
-      { salary,  address, contact },
+      { salary,  address, contact, fullName,password,age, joiningDate, speciality,},
       { new: true }
     );
     if (!trainer) return res.status(401).send("Something went wrong");
@@ -104,18 +108,26 @@ module.exports.checkAttendence = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 module.exports.deleteTrainer = async (req, res) => {
   try {
-    let { email } = req.body;
+    // Extract the trainer's ID from the request params
+    const { id } = req.params;
 
-    let trainer = await trainerModel.findOneAndDelete({ email });
-    if (!trainer) return res.status(401).send("Something Went Wrong");
+    // Find and delete the trainer by their ID
+    let trainer = await trainerModel.findByIdAndDelete(id);
+
+    if (!trainer) {
+      return res.status(404).send("Trainer not found");
+    }
+
+    // Respond with success message
     res.send("Trainer Deleted");
   } catch (err) {
     console.log(err.message);
+    res.status(500).send("Server error");
   }
 };
+
 
 module.exports.listTrainers = async (req, res) => {
   try {
@@ -190,5 +202,23 @@ module.exports.trainerAttendence = async (req,res) =>{
   catch(err){
     console.error(err);
     res.status(500).json({message: "Server error"})
+  }
+};
+
+module.exports.getTrainerDetails = async (req, res) => {
+  const { id } = req.params; // Assuming email is passed as a parameter. You can also use trainerId if needed.
+  try {
+    // Find the trainer by email or trainerId (you can modify this based on your use case)
+    let trainer = await trainerModel.findById(id); // Alternatively, you can use { _id: req.params.trainerId } for fetching by ID
+
+    // If trainer doesn't exist, return an error message
+    if (!trainer) {
+      return res.status(404).json({ message: "Trainer not found" });
+    }
+    // Return the trainer details
+    res.status(200).json(trainer);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 };

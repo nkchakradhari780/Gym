@@ -7,6 +7,7 @@ const planSchema = mongoose.Schema({
     price: Number,
     duration: Number,       // In Days 
     category: String,
+    duratioin: String,
     createDate: {
         type: Date,
         default: Date.now

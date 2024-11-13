@@ -16,6 +16,7 @@ const {
     updateManager,
     deleteManager,
     listManagers,
+    getManagerDetails,
 } = require('../controllers/managerAuth')
 
 const {
@@ -25,6 +26,7 @@ const {
     listTrainers,
     trainerAttendence,
     checkTrainerAttendence,
+    getTrainerDetails,
 } = require('../controllers/trainerAuth')
 
 const {
@@ -34,6 +36,7 @@ const {
     listCustomers,
     checkCustomerAttendence,
     customerAttendence,
+    customerDetails,
 } = require('../controllers/customerAuth');
 
 const {
@@ -77,7 +80,9 @@ router.post('/manager/create', registerManager);
 
 router.post('/manager/update',updateManager);
 
-router.post('/manager/delete',deleteManager);
+router.delete('/manager/:id',deleteManager);
+
+router.get('/manager/:id',getManagerDetails)
 
 
 
@@ -85,13 +90,15 @@ router.get('/trainer',listTrainers);
 
 router.post('/trainer/create', registerTrainer);  
 
-router.post('/trainer/update',updateTrainer);
+router.put('/trainer/update',updateTrainer);
 
-router.post('/trainer/delete',deleteTrainer);
+router.delete('/trainer/:id',deleteTrainer);
 
 router.get('/trainer/attendence', checkTrainerAttendence);
 
 router.post('/trainer/attendence/mark', trainerAttendence);
+
+router.get('/trainer/:id',getTrainerDetails)
 
 
 
@@ -99,13 +106,15 @@ router.get('/customer',listCustomers);
 
 router.post('/customer/create', registerCustomer);
 
-router.post('/customer/update',updateCustomer);
+router.put('/customer/update',updateCustomer);
 
-router.post('/customer/delete',deleteCustomer);
+router.delete('/customer/delete',deleteCustomer);
 
 router.get('/customer/attendance', checkCustomerAttendence);
 
 router.post('/customer/attendance/mark', customerAttendence);
+
+router.get('/customer/:id', customerDetails)
 
 
 
@@ -113,23 +122,23 @@ router.get('/equipment',listEquipments);
 
 router.post('/equipment/add',addEquipment);
 
-router.put('/equipment/update',updateEquipment);
+router.put('/equipment/:id',updateEquipment);
 
-router.post('/equipment/remove',removeEquipment);
+router.delete('/equipment/:id',removeEquipment);
 
 router.get('/equipment/:id',equipmentDetails)
 
 
 
-router.post('/create', createPlan);
+router.post('/plans/create', createPlan);
 
-router.put('/update/:id', updatePlan);
+router.put('/plans/update/:id', updatePlan);
 
-router.delete('/delete/:id', deletePlan);
+router.delete('/plans/:id', deletePlan);
 
 router.get('/plan/:id', getPlanById); 
 
-router.get('/', listPlans);
+router.get('/plans', listPlans);
 
 
 

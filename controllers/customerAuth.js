@@ -2,37 +2,59 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const customerModel = require("../models/costumer_model");
 const { generateToken } = require("../utils/generatetoken");
-
 module.exports.registerCustomer = async (req, res) => {
   try {
-    let { email, fullname, password, contact, address, weight, age } = req.body;
+    const {
+      email,
+      fullName,
+      password,
+      contact,
+      address,
+      weight,
+      age,
+      gender,
+      joinedPlans = [],
+      trainer = null,
+      ditePlans = [],
+      attendance = []
+    } = req.body;
 
-    let customer = await customerModel.findOne({ email: email });
-    if (customer)
-      return res.status(401).send("Customer Exists You need to Login");
+    // Check if the customer already exists
+    let customer = await customerModel.findOne({ email });
+    if (customer) {
+      return res.status(401).send("Customer already exists. Please login.");
+    }
 
-    bcrypt.genSalt(10, (err, salt) => {
+    // Hash the password
+    bcrypt.genSalt(10, (err, salt) =>{
       bcrypt.hash(password, salt, async (err, hash) => {
-        if (err) return res.send(err.message);
+        if(err)
+          return res
+            .status(500)
+            .send("Error occured while hashing the password")
         else {
+          
           let customer = await customerModel.create({
             email,
-            fullname,
+            fullName,
             contact,
             address,
             weight,
             age,
             password: hash,
-            // photo: req.file.buffer,
+            gender,
+            joinedPlans,
+            trainer,
+            ditePlans,
+            createdAt: new Date() // or let MongoDB handle the default
           });
-          // let token = generateToken(customer);
-          // res.cookie("token", token);
-          res.send("customer created successfully");
+          res.status(201).send("Customer created successfully");
         }
       });
     });
   } catch (err) {
     console.log(err.message);
+    res.status(500).send("Server error");
   }
 };
 
@@ -66,11 +88,11 @@ module.exports.loginCustomer = async (req, res) => {
 
 module.exports.updateCustomer = async (req, res) => {
   try {
-    let { email, fullname, contact, address, weight, age } = req.body;
+    let { email, fullName, contact, address, weight, age, password, gender, } = req.body;
 
     let customer = await customerModel.findOneAndUpdate(
       { email },
-      { fullname, contact, address, weight, age },
+      { fullName, contact, address, weight, age, password, gender },
       { new: true }
     );
     if (!customer) return res.status(401).send("Something Went wrong");
@@ -154,14 +176,22 @@ module.exports.deleteCustomer = async (req, res) => {
 
 module.exports.customerDetails = async (req, res) => {
   try {
-    let { id } = req.params.id;
+    const { id } = req.params; // Destructure `id` directly from `req.params`
 
-    let customer = await customerModel.findOne({ id });
+    // Use findById to fetch the document by its unique ID
+    const customer = await customerModel.findById(id);
+    
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
     res.json(customer);
   } catch (err) {
-    console.log(err.message);
+    console.error("Error:", err.message);
+    res.status(500).json({ message: "Server error" });
   }
 };
+
 
 module.exports.listCustomers = async (req, res) => {
   try {

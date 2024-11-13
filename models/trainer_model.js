@@ -9,11 +9,10 @@ const trainerSchema = mongoose.Schema({
     address: String,
     salary: Number,
     age: Number,
-    trainerID: String,
+    speciality: String,
     gender: {
-        type: String,
+        type: String, 
         enum: ["male", "female", "other"], // Corrected enum syntax
-        required: true,
     },
     role: {
         type: String,
@@ -28,7 +27,7 @@ const trainerSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'customer'
     }],
-     // Attendance - storing attendance records as an array of dates
+    // Attendance - storing attendance records as an array of dates
     attendance: [
         {
             date: {
@@ -46,6 +45,15 @@ const trainerSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    joiningDate: { // New field for joining date
+        type: Date,
+        default: Date.now, // Sets the current date as default
+    },
+    status: {
+        type: String,
+        enum: ['active', 'inactive', 'on_leave', 'retired'], // Possible statuses for the trainer
+        default: 'active', // Default to 'active'
+      },
 });
 
-module.exports = mongoose.model("trainer",trainerSchema);
+module.exports = mongoose.model("trainer", trainerSchema);

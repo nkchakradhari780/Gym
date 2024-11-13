@@ -29,14 +29,13 @@ const managerSchema = mongoose.Schema({
   salary: { type: Number },
   Photo: { type: Buffer },
   managerId: { type: String },
-  joinDate: {
+  joiningDate: {
     type: Date,
     default: Date.now, // Corrected default for date
   },
   gender: {
     type: String,
     enum: ["male", "female", "other"], // Corrected enum syntax
-    required: true,
   },
   role: {
     type: String,

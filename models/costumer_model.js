@@ -19,7 +19,7 @@ const costumerSchema = mongoose.Schema({
     role: {
         type: String,
         enum: ['admin', 'trainer', 'manager', 'member'],
-        default: 'customer'
+        default: 'member'
     },
     joinedPlans:[{
         type: mongoose.Schema.Types.ObjectId,

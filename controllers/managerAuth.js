@@ -52,17 +52,24 @@ module.exports.updateManager = async (req, res) => {
 
 module.exports.deleteManager = async (req, res) => {
   try {
-    let { email } = req.body;
+    const { id } = req.params; // Get manager ID from the URL params
 
-    let manager = await managerModel.findOneAndDelete({ email });
-    if (!manager)
-      return res.status(401).send("Manager not found or something went wrong");
-    res.send("Manager deleted successfully");
+    // Find and delete the manager by ID
+    let manager = await managerModel.findByIdAndDelete(id);
+
+    // If no manager is found, return a 404 response
+    if (!manager) {
+      return res.status(404).send("Manager not found");
+    }
+
+    // Successfully deleted the manager
+    res.status(200).send("Manager deleted successfully");
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server error");
   }
 };
+
 
 module.exports.registerManager = async (req, res) => {
   try {
@@ -145,3 +152,25 @@ module.exports.managerDetails = async (req,res) => {
     res.status(500).json({message: "Server error"})
   }
 }
+
+module.exports.getManagerDetails = async (req, res) => {
+  try {
+    // Extract managerId from request params
+    let managerId = req.params.id;
+
+    // Find the manager by id
+    let manager = await managerModel.findById(managerId);
+    
+    // If manager is not found, return a 404 response
+    if (!manager) {
+      return res.status(404).send("Manager Not Found");
+    }
+    // Return manager details in response
+    res.status(200).json({
+      manager
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
