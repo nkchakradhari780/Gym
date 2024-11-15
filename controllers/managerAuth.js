@@ -134,7 +134,7 @@ module.exports.listManagers = async (req, res) => {
 
 module.exports.managerDetails = async (req,res) => {
   try {
-    email = req.email;
+    const email = req.email;
 
     let manager = await managerModel.findOne({email})
     if(!manager){

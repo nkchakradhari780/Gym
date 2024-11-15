@@ -11,13 +11,23 @@ const {
 
 const {
     getAnnouncement
-} = require('../controllers/AnnouncementsAuth')
+} = require('../controllers/AnnouncementsAuth');
 
-router.get('/:id',customerDetails);
+const { 
+    listPlans,
+    buyPlans,
+ } = require('../controllers/plan');
+ 
+
+router.get('/profile',customerDetails);
 
 router.get('/checkAttendence', checkCustomerAttendence);
 
 router.get('/announcement',getAnnouncement);
+
+router.get('/plans/list',listPlans);
+
+router.post('/byPlan',buyPlans)
 
 
 module.exports = router;

@@ -2,6 +2,7 @@ const planModel = require('../models/plan_module');
 const customerModel = require('../models/costumer_model');
 const trainerModel = require('../models/trainer_model');
 const ditePlanModel = require('../models/diteplan_model');
+const transectionModel = require('../models/transection_model')
 
   // CREATE a new Plan
 module.exports.createPlan = async (req, res) => {
@@ -100,59 +101,38 @@ module.exports.getPlanById = async (req, res) => {
 };
 
 
-
 module.exports.buyPlans = async (req, res) => {
   try {
-    const { customerId, planIds, dietPlanIds, trainerId } = req.body;
+    const plan = req.body;
+    const customer = req.customer;
 
-    // Validate required fields
-    if (!customerId || !planIds || !dietPlanIds || !trainerId) {
-      return res.status(400).json({ error: "All fields are required" });
-    }
+    console.log("Plan:", plan, "Customer:", customer);
 
-    // Ensure planIds and dietPlanIds are arrays
-    if (!Array.isArray(planIds) || !Array.isArray(dietPlanIds)) {
-      return res.status(400).json({ error: "planIds and dietPlanIds must be arrays" });
-    }
-
-    // Check if the customer exists
-    const customer = await customerModel.findById(customerId);
     if (!customer) {
-      return res.status(404).json({ error: "Customer not found" });
+      return res.status(404).json({ message: "Customer not found" });
     }
 
-    // Validate plan IDs and check if plans exist
-    const plans = await planModel.find({ _id: { $in: planIds } });
-    if (plans.length !== planIds.length) {
-      return res.status(404).json({ error: "One or more plans not found" });
+    if (customer.joinedPlans.includes(plan.planId)) {
+      return res.status(400).json({ message: "Already enrolled in this plan" });
     }
 
-    // Validate dietPlan IDs and check if diet plans exist
-    const dietPlans = await dietPlanModel.find({ _id: { $in: dietPlanIds } });
-    if (dietPlans.length !== dietPlanIds.length) {
-      return res.status(404).json({ error: "One or more diet plans not found" });
+    const updateCustomer = await customerModel.findByIdAndUpdate(
+      customer._id,
+      { $push: { joinedPlans: plan.planId } },
+      { new: true }
+    );
+
+    if (!updateCustomer) {
+      return res.status(404).json({ message: "Customer not found" });
     }
 
-    // Check if the trainer exists
-    const trainer = await trainerModel.findById(trainerId);
-    if (!trainer) {
-      return res.status(404).json({ error: "Trainer not found" });
-    }
-
-    // Update customer with joined plans, diet plans, and trainer
-    customer.joinedPlans.push(...plans.map(plan => plan._id));
-    customer.ditePlans.push(...dietPlans.map(dietPlan => dietPlan._id));
-    customer.trainer = trainer._id;
-
-    // Save the updated customer
-    await customer.save();
-
-    return res.status(200).json({ message: "Plans and trainer added successfully", customer });
+    return res.status(200).json(updateCustomer);
   } catch (err) {
-    console.error(err.message);
+    console.error("Server error:", err.message);
     return res.status(500).json({ error: "Server error" });
   }
 };
+
 
 // CREATE a new Diet Plan
 module.exports.createDietPlan = async (req, res) => {

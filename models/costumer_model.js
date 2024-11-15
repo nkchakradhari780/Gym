@@ -2,8 +2,14 @@ const mongoose = require('mongoose');
 
 const costumerSchema = mongoose.Schema({
     fullName: String,
-    email: String,
-    password: String,
+    email: {
+        type: String, 
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true
+    },
     contact: Number,
     // photo: Buffer,
     address: String,
@@ -23,7 +29,7 @@ const costumerSchema = mongoose.Schema({
     },
     joinedPlans:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'plan'
+        ref: 'plans'
     }],
     trainer: {
         type: mongoose.Schema.Types.ObjectId,

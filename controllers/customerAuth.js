@@ -16,7 +16,7 @@ module.exports.registerCustomer = async (req, res) => {
       joinedPlans = [],
       trainer = null,
       ditePlans = [],
-      attendance = []
+      attendance = [],
     } = req.body;
 
     // Check if the customer already exists
@@ -26,14 +26,13 @@ module.exports.registerCustomer = async (req, res) => {
     }
 
     // Hash the password
-    bcrypt.genSalt(10, (err, salt) =>{
+    bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(password, salt, async (err, hash) => {
-        if(err)
+        if (err)
           return res
             .status(500)
-            .send("Error occured while hashing the password")
+            .send("Error occured while hashing the password");
         else {
-          
           let customer = await customerModel.create({
             email,
             fullName,
@@ -46,7 +45,7 @@ module.exports.registerCustomer = async (req, res) => {
             joinedPlans,
             trainer,
             ditePlans,
-            createdAt: new Date() // or let MongoDB handle the default
+            createdAt: new Date(), // or let MongoDB handle the default
           });
           res.status(201).send("Customer created successfully");
         }
@@ -67,15 +66,20 @@ module.exports.loginCustomer = async (req, res) => {
     bcrypt.compare(password, customer.password, (err, result) => {
       if (err)
         return res.status(500).send("Error occurred while comparing passwords");
-   
+
       if (result) {
-        let token = jwt.sign({customerId: customer._id},process.env.JWT_KEY);
-        res.cookie("token", token,{
-            httpOnly: true,
-            secrure: false,
-            maxAge: 3600000 
+        let token = jwt.sign({ customerId: customer._id }, process.env.JWT_KEY);
+        res.cookie("token", token, {
+          httpOnly: true,
+          secrure: false,
+          maxAge: 3600000,
         });
-        res.status(200).json({success: true, message: "Customer LoggedIN Successfully",customer,token})
+        res.status(200).json({
+          success: true,
+          message: "Customer LoggedIN Successfully",
+          customer,
+          token,
+        });
       } else {
         req.send("Email or password is incorrect");
         return res.redirect("/");
@@ -88,7 +92,8 @@ module.exports.loginCustomer = async (req, res) => {
 
 module.exports.updateCustomer = async (req, res) => {
   try {
-    let { email, fullName, contact, address, weight, age, password, gender, } = req.body;
+    let { email, fullName, contact, address, weight, age, password, gender } =
+      req.body;
 
     let customer = await customerModel.findOneAndUpdate(
       { email },
@@ -176,22 +181,25 @@ module.exports.deleteCustomer = async (req, res) => {
 
 module.exports.customerDetails = async (req, res) => {
   try {
-    const { id } = req.params; // Destructure `id` directly from `req.params`
+    const email = req.email; // Destructure `email` from `req.params`
 
-    // Use findById to fetch the document by its unique ID
-    const customer = await customerModel.findById(id);
-    
+    // Use findOne to fetch the document by email
+    const customer = await customerModel.findOne({ email });
+
     if (!customer) {
-      return res.status(404).json({ message: "Customer not found" });
+      return res
+      .status(404)
+      .json({ message: "Customer not found" });
     }
 
-    res.json(customer);
+    res.json({
+      customer
+    });
   } catch (err) {
     console.error("Error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
-
 
 module.exports.listCustomers = async (req, res) => {
   try {

@@ -22,8 +22,11 @@ module.exports = async (req,res,next) =>{
             return res.status(403).json({message: "Unauthorized Customer"})
         }
         
+        
         req.customer = customer;
         req.role = decoded.role;
+        req.email = decoded.email;
+        
         next();
     } 
     catch (error) {
