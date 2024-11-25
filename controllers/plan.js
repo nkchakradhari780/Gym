@@ -280,3 +280,15 @@ module.exports.deleteDietPlan = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+
+module.exports.purchesedPlans = async (req, res) => {
+  const customer = req.customer;
+  
+  if(!customer) {
+    return res.status(404).json({message: "Customer not found"})
+
+  }
+  const populatedPlans = await customer.populate('joinedPlans');
+  res.status(200).json(customer.joinedPlans);
+}

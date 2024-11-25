@@ -92,8 +92,7 @@ module.exports.loginCustomer = async (req, res) => {
 
 module.exports.updateCustomer = async (req, res) => {
   try {
-    let { email, fullName, contact, address, weight, age, password, gender } =
-      req.body;
+    let { email, fullName, contact, address, weight, age, password, gender } = req.body;
 
     let customer = await customerModel.findOneAndUpdate(
       { email },
@@ -183,7 +182,6 @@ module.exports.customerDetails = async (req, res) => {
   try {
     const email = req.email; // Destructure `email` from `req.params`
 
-    // Use findOne to fetch the document by email
     const customer = await customerModel.findOne({ email });
 
     if (!customer) {
@@ -204,6 +202,7 @@ module.exports.customerDetails = async (req, res) => {
 module.exports.listCustomers = async (req, res) => {
   try {
     // Fetch list of all customers
+    console.log("hii")
     let customerList = await customerModel.find();
 
     // Get the total count of customers
@@ -213,6 +212,31 @@ module.exports.listCustomers = async (req, res) => {
     res.status(200).json({
       total: totalCustomers,
       customers: customerList,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports.listCustomersAttendence = async (req, res) => {
+  try {
+    // Fetch list of all customers including attendance data
+    let customerList = await customerModel.find();
+    // Map through the customers to return only their attendance data
+    const customerAttendanceArray = customerList.map((customer) => ({
+      customerId: customer._id,
+      name: customer.fullName,
+      attendance: customer.attendance || [], // Include attendance (default to empty array if not present)
+    }));
+
+    // Get the total count of customers
+    let totalCustomers = await customerModel.countDocuments();
+
+    // Send response with the attendance array of each customer
+    res.status(200).json({
+      total: totalCustomers,
+      attendanceData: customerAttendanceArray, // This is where you send only the attendance data
     });
   } catch (err) {
     console.error(err);

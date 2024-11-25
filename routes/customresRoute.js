@@ -16,6 +16,7 @@ const {
 const { 
     listPlans,
     buyPlans,
+    purchesedPlans,
  } = require('../controllers/plan');
  
 
@@ -27,7 +28,9 @@ router.get('/announcement',getAnnouncement);
 
 router.get('/plans/list',listPlans);
 
-router.post('/byPlan',buyPlans)
+router.post('/byPlan',buyPlans);
+
+router.get('/purchesedPlans',purchesedPlans)
 
 
 module.exports = router;

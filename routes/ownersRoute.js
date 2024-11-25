@@ -37,6 +37,7 @@ const {
     checkCustomerAttendence,
     customerAttendence,
     customerDetails,
+    listCustomersAttendence,
 } = require('../controllers/customerAuth');
 
 const {
@@ -115,6 +116,8 @@ router.get('/customer/attendance', checkCustomerAttendence);
 router.post('/customer/attendance/mark', customerAttendence);
 
 router.get('/customer/:id', customerDetails)
+
+router.get('/customer/attendance/list',listCustomersAttendence)
 
 
 

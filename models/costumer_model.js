@@ -29,7 +29,7 @@ const costumerSchema = mongoose.Schema({
     },
     joinedPlans:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'plans'
+        ref: 'plan'
     }],
     trainer: {
         type: mongoose.Schema.Types.ObjectId,

@@ -222,3 +222,26 @@ module.exports.getTrainerDetails = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
+module.exports.listTrainersAttendence = async (req,res) =>{
+  try{
+    let trainerList = await trainerModel.find();
+
+    const trainerAttendanceArray = trainerList.map((trainer) => ({
+      trainerId: trainer._id,
+      name: trainer.fullName,
+      attendance: trainer.attendance || []
+    }));
+
+    let totalTrainers = await trainerModel.countDocuments();
+
+    res.status(200).json({
+      total: totalTrainers,
+      attendanceData: trainerAttendanceArray,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({message: "Server error"})
+  }
+};
