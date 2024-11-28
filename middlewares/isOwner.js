@@ -13,6 +13,7 @@ module.exports = async (req,res,next) =>{
         const owner = await ownerModel
             .findById(decoded.Id)
             .select("-password");
+
         
         if(!owner){
             return res.status(401).json({message: "Owner Not Found"})

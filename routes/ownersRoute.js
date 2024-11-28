@@ -109,7 +109,7 @@ router.post('/customer/create', registerCustomer);
 
 router.put('/customer/update',updateCustomer);
 
-router.delete('/customer/delete',deleteCustomer);
+router.delete('/customer/:id',deleteCustomer);
 
 router.get('/customer/attendance', checkCustomerAttendence);
 
@@ -158,6 +158,9 @@ router.delete('/diteplans/:id', deleteDietPlan);
 
 
 router.post('/sendannouncement',sendAnnouncement);
+
+
+
 
 
 

@@ -125,14 +125,13 @@ module.exports.buyPlans = async (req, res) => {
     }
 
     let newTransection = await transectionModel.create({
-      customer: customer._id,
+      costumer: customer._id,
       amount: plan.price,
       type: "membership",
       status: "completed",
+      transactionDate: new Date(),
     });
 
-    // console.log("Transection", newTransection);
-    // console.log("Customer", updateCustomer);
 
     return res
       .status(200)

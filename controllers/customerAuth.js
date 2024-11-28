@@ -169,40 +169,48 @@ module.exports.customerAttendence = async (req, res) => {
 
 module.exports.deleteCustomer = async (req, res) => {
   try {
-    let { email } = req.body;
+    let { id } = req.params;
 
-    let customer = await customerModel.findOneAndDelete({ email });
-    res.send("customer deleted");
+    let customer = await customerModel.findByIdAndDelete(id);
+
+    if(!customer){
+      return res.status(404).send("User Not found");
+    }
+    res.status(200).send("User Deleted Successfully")
   } catch (err) {
     console.log(err.message);
+    res.status(500).send("Server Error");
   }
 };
 
+
 module.exports.customerDetails = async (req, res) => {
   try {
-    const email = req.email; // Destructure `email` from `req.params`
+    const { id } = req.params; // Destructure `id` from `req.params`
 
-    const customer = await customerModel.findOne({ email });
+    // Find the customer by their unique ID
+    const customer = await customerModel.findById(id);
 
+    console.log(customer);
+    console.log(id);
+
+    // Check if the customer was not found
     if (!customer) {
-      return res
-      .status(404)
-      .json({ message: "Customer not found" });
+      return res.status(404).json({ message: "Customer not found" });
     }
 
-    res.json({
-      customer
-    });
+    // Respond with the customer details
+    res.json({ customer });
   } catch (err) {
     console.error("Error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
 
+
 module.exports.listCustomers = async (req, res) => {
   try {
     // Fetch list of all customers
-    console.log("hii")
     let customerList = await customerModel.find();
 
     // Get the total count of customers

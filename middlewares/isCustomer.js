@@ -18,7 +18,7 @@ module.exports = async (req,res,next) =>{
             return res.status(401).json({message: "Customer Not Found"})
         }
 
-        if(customer.role !== 'customer'){
+        if(customer.role !== 'member'){
             return res.status(403).json({message: "Unauthorized Customer"})
         }
         

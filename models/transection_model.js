@@ -3,9 +3,9 @@
 const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema({
-  customer: {
+  costumer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'customer', // Assuming 'User' is the model for your users (members/admins)
+    ref: 'costumer', // Assuming 'User' is the model for your users (members/admins)
     required: true,
   },
   amount: {
