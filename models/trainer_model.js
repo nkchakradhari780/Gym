@@ -23,9 +23,9 @@ const trainerSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'plan'
     }],
-    customers: [{
+    costumer: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'customer'
+        ref: 'costumer'
     }],
     // Attendance - storing attendance records as an array of dates
     attendance: [

@@ -23,6 +23,7 @@ module.exports = async (req,res,next) =>{
             return res.status(403).josn({message: "Unauthorized Trainer"})
         }
 
+        req.email = decoded.email;
         req.trainer = trainer;
         req.role = decoded.role;
         next();

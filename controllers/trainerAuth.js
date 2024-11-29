@@ -245,3 +245,65 @@ module.exports.listTrainersAttendence = async (req,res) =>{
     res.status(500).json({message: "Server error"})
   }
 };
+
+module.exports.trainerDetails = async (req,res) =>{
+  try{
+    const email = req.email;
+    
+    let trainer = await trainerModel.findOne({email})
+    if(!trainer) {
+      return res
+        .status(404)
+        .send("Trainer Not Found")
+    }
+
+    res.status(200).json({
+      trainer
+    })
+  } catch(err){
+    console.error(err)
+    res.status(500).json({message: "server error"})
+  }
+}
+
+module.exports.trainersCustomers = async (req, res) => {
+  try {
+    const email = req.email;
+
+    // Find the trainer by email, populate the customers array with the plan details
+    let trainer = await trainerModel.findOne({ email }).populate({
+      path: 'costumer',
+      populate: {
+        path: 'joinedPlans', // Assuming `joinedPlans` contains a reference to a 'plan' model
+        model: 'plan', // Specify the model name for the plan, e.g., 'Plan'
+        select: 'planName planDetails' // Specify the fields you want to return from the plan model
+      }
+    });
+
+    // Check if trainer exists
+    if (!trainer) {
+      return res.status(404).send("Trainer Not Found");
+    }
+
+    // Now, you can access both the customers and the plan details within `joinedPlans`
+    const customersWithPlans = trainer.costumer.map(customer => {
+      const plans = customer.joinedPlans.map(plan => {
+        return {
+          planName: plan.planName,
+          planDetails: plan.planDetails,
+        };
+      });
+      
+      return {
+        ...customer.toObject(), // Convert the customer object to a plain JavaScript object
+        plans // Add the customer’s plans data
+      };
+    });
+
+    // Send the customers data with their plans
+    return res.status(200).json({ customers: customersWithPlans });
+  } catch (error) {
+    console.error("Error retrieving customers:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+};

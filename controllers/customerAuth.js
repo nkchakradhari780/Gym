@@ -1,7 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const customerModel = require("../models/costumer_model");
+const trainerModel = require("../models/trainer_model");
 const { generateToken } = require("../utils/generatetoken");
+const mongoose = require("mongoose");
+
 module.exports.registerCustomer = async (req, res) => {
   try {
     const {
@@ -33,7 +36,7 @@ module.exports.registerCustomer = async (req, res) => {
             .status(500)
             .send("Error occured while hashing the password");
         else {
-          let customer = await customerModel.create({
+          let newCustomer = await customerModel.create({
             email,
             fullName,
             contact,
@@ -47,6 +50,31 @@ module.exports.registerCustomer = async (req, res) => {
             ditePlans,
             createdAt: new Date(), // or let MongoDB handle the default
           });
+
+          if (trainer) {
+            if (!mongoose.Types.ObjectId.isValid(trainer)) {
+              return res.status(400).send("Invalid trainer ID format");
+            }
+
+
+            const existingTrainer = await trainerModel.findById(trainer);
+            if (!existingTrainer) {
+              console.log("Trainer not found in the database");
+              return res.status(404).send("Trainer not found");
+            }
+
+            const updatedTrainer = await trainerModel.findByIdAndUpdate(
+              trainer,
+              { $push: { costumer: newCustomer._id } }, // Add the new customer's ID to the customerId array
+              { new: true } // Return the updated document
+            );
+
+            console.log(updatedTrainer);
+
+            if (!updatedTrainer) {
+              return res.status(404).send("Trainer Not found");
+            }
+          }
           res.status(201).send("Customer created successfully");
         }
       });
@@ -92,7 +120,8 @@ module.exports.loginCustomer = async (req, res) => {
 
 module.exports.updateCustomer = async (req, res) => {
   try {
-    let { email, fullName, contact, address, weight, age, password, gender } = req.body;
+    let { email, fullName, contact, address, weight, age, password, gender } =
+      req.body;
 
     let customer = await customerModel.findOneAndUpdate(
       { email },
@@ -173,16 +202,31 @@ module.exports.deleteCustomer = async (req, res) => {
 
     let customer = await customerModel.findByIdAndDelete(id);
 
-    if(!customer){
+    if (!customer) {
       return res.status(404).send("User Not found");
     }
-    res.status(200).send("User Deleted Successfully")
+
+    if (customer.trainer) {
+      const updatedTrainer = await trainerModel.findByIdAndUpdate(
+        customer.trainer,
+        { $pull: { customers: id } }, // Remove the customer ID from the array
+        { new: true }
+      );
+
+      if (!updatedTrainer) {
+        console.log("Trainer not found while updating");
+        // Optionally, you could send a warning, but it's not critical for deletion
+      } else {
+        console.log("Customer removed from trainer's customer list:", updatedTrainer);
+      }
+    }
+
+    res.status(200).send("User Deleted Successfully");
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server Error");
   }
 };
-
 
 module.exports.customerDetails = async (req, res) => {
   try {
@@ -190,9 +234,6 @@ module.exports.customerDetails = async (req, res) => {
 
     // Find the customer by their unique ID
     const customer = await customerModel.findById(id);
-
-    console.log(customer);
-    console.log(id);
 
     // Check if the customer was not found
     if (!customer) {
@@ -207,11 +248,15 @@ module.exports.customerDetails = async (req, res) => {
   }
 };
 
-
 module.exports.listCustomers = async (req, res) => {
   try {
     // Fetch list of all customers
-    let customerList = await customerModel.find();
+    let customerList = await customerModel
+      .find()
+      .populate({
+        path: "joinedPlans",
+        model: "plan"
+      })
 
     // Get the total count of customers
     let totalCustomers = await customerModel.countDocuments();

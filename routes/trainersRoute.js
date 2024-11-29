@@ -4,6 +4,8 @@ const upload = require('../config/multer-config');
 const {
     checkAttendence,
     logout,
+    trainerDetails,
+    trainersCustomers
 } = require('../controllers/trainerAuth');
 
 const {
@@ -21,15 +23,17 @@ const { getAnnouncement } = require('../controllers/AnnouncementsAuth');
 
 
 // Route to get trainer's attendance records
+router.get('/',trainerDetails);
+
 router.get('/trainer/attendance',checkAttendence);
 
 
-router.get('/customer',listCustomers);
+router.get('/customer',trainersCustomers);
 
 router.post('/customer/attendence',customerAttendence);
 
 
-router.get('/equipment', listEquipments);
+router.get('/equipment',listEquipments);
 
 router.post('/equipment/update',updateEquipment);
 
