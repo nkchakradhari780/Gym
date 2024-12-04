@@ -170,11 +170,13 @@ module.exports.checkTrainerAttendence = async (req,res) =>{
 
 module.exports.trainerAttendence = async (req,res) =>{
   const {email, date, status } = req.body;
-
   try{
     const trainer = await trainerModel.findOne({email});
 
+    console.log(status);
+
     if(!trainer){
+      console.log(`customer with email: ${email} not found`)
       return res.status(404).json({message: "Trainer not found"});
     }
 
@@ -186,13 +188,13 @@ module.exports.trainerAttendence = async (req,res) =>{
       (att) => att.date.toDateString() === new Date(date).toDateString()
     );
 
+
     if (existingAttendance) {
-      return res
-        .status(400)
-        .json({message: "Attendence for this date already marked"});
+      existingAttendance.status = status;  
+    } else {
+      trainer.attendance.push({date: new Date(date), status});
     }
 
-    trainer.attendance.push({date: new Date(date), status});
 
     await trainer.save();
     res
@@ -228,10 +230,13 @@ module.exports.listTrainersAttendence = async (req,res) =>{
   try{
     let trainerList = await trainerModel.find();
 
+
     const trainerAttendanceArray = trainerList.map((trainer) => ({
       trainerId: trainer._id,
       name: trainer.fullName,
-      attendance: trainer.attendance || []
+      attendance: trainer.attendance || [],
+      email: trainer.email,
+      role: trainer.role,
     }));
 
     let totalTrainers = await trainerModel.countDocuments();

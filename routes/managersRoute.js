@@ -80,6 +80,7 @@ router.post('/trainer/attendence/mark', trainerAttendence);
 router.get('/trainer/:id',getTrainerDetails)
 
 
+
 router.get('/customer',listCustomers);
 
 router.post('/customer/create', registerCustomer);
@@ -95,6 +96,7 @@ router.post('/customer/attendance/mark', customerAttendence);
 router.get('/customer/:id', customerDetails)
 
 
+
 router.get('/equipment',listEquipments);
 
 router.post('/equipment/add',addEquipment);
@@ -104,6 +106,7 @@ router.put('/equipment/:id',updateEquipment);
 router.delete('/equipment/:id',removeEquipment);
 
 router.get('/equipment/:id',equipmentDetails)
+
 
 
 router.post('/plans/create', createPlan);

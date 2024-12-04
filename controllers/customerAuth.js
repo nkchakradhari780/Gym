@@ -137,11 +137,15 @@ module.exports.updateCustomer = async (req, res) => {
 
 // Check customer attendance
 module.exports.checkCustomerAttendence = async (req, res) => {
-  const { email } = req.body;
+  const { id, role } = req.params;
+
+  console.log("Id",id,"role",role);
 
   try {
     // Find customer by email
-    const customer = await customerModel.findOne({ email });
+    const customer = await customerModel.findById(id);
+
+    console.log('customer:',customer);
 
     if (!customer) {
       return res.status(404).json({ message: "Customer not found" });
@@ -164,7 +168,8 @@ module.exports.customerAttendence = async (req, res) => {
     const customer = await customerModel.findOne({ email });
 
     if (!customer) {
-      return res.status(404).json({ message: "Customer not found" });
+      console.log(`customer with email: ${email} not found`)
+      return res.status(404).json({ message: `customer with email: ${email} not found` });
     }
 
     // Ensure attendance field exists
@@ -177,13 +182,12 @@ module.exports.customerAttendence = async (req, res) => {
       (att) => att.date.toDateString() === new Date(date).toDateString()
     );
     if (existingAttendance) {
-      return res
-        .status(400)
-        .json({ message: "Attendance for this date already marked" });
-    }
+      existingAttendance.status = status;  
+    } else {
+      // Add new attendance record
+      customer.attendance.push({ date: new Date(date), status });
 
-    // Add new attendance record
-    customer.attendance.push({ date: new Date(date), status });
+    }
 
     // Save the updated customer document
     await customer.save();
@@ -248,6 +252,27 @@ module.exports.customerDetails = async (req, res) => {
   }
 };
 
+
+
+module.exports.customerDetailsByEmail = async (req,res) =>{
+  try {
+    const email = req.email;
+
+    const customer = await customerModel.findOne({email});
+
+    if(!customer){
+      return res.status(404).json({message:" Customer Not Found"})
+    }
+
+    res.json({customer})
+  } catch (error) {
+    console.error("Error:",error.message);
+      res.status(500).json({message:"Server error"})
+  }
+}
+
+
+
 module.exports.listCustomers = async (req, res) => {
   try {
     // Fetch list of all customers
@@ -281,6 +306,8 @@ module.exports.listCustomersAttendence = async (req, res) => {
       customerId: customer._id,
       name: customer.fullName,
       attendance: customer.attendance || [], // Include attendance (default to empty array if not present)
+      email: customer.email,
+      role: customer.role,
     }));
 
     // Get the total count of customers

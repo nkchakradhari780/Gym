@@ -27,6 +27,7 @@ const {
     trainerAttendence,
     checkTrainerAttendence,
     getTrainerDetails,
+    listTrainersAttendence,
 } = require('../controllers/trainerAuth')
 
 const {
@@ -101,6 +102,8 @@ router.post('/trainer/attendence/mark', trainerAttendence);
 
 router.get('/trainer/:id',getTrainerDetails)
 
+router.get('/trainer/attendance/list',listTrainersAttendence)
+
 
 
 router.get('/customer',listCustomers);
@@ -111,7 +114,7 @@ router.put('/customer/update',updateCustomer);
 
 router.delete('/customer/:id',deleteCustomer);
 
-router.get('/customer/attendance', checkCustomerAttendence);
+router.get('/customer/attendance/:role/:id', checkCustomerAttendence);
 
 router.post('/customer/attendance/mark', customerAttendence);
 

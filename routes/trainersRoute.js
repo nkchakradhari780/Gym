@@ -19,6 +19,12 @@ const {
     equipmentStatus,
 } = require('../controllers/equipment');
 
+
+const {
+    listPlans,
+    getPlanById
+} = require('../controllers/plan');
+
 const { getAnnouncement } = require('../controllers/AnnouncementsAuth');
 
 
@@ -38,6 +44,13 @@ router.get('/equipment',listEquipments);
 router.post('/equipment/update',updateEquipment);
 
 
+router.get('/plans', listPlans);
+
+router.get('/plan/:id', getPlanById); 
+
+
 router.get('/announcement',getAnnouncement)
+
+
 
 module.exports = router;

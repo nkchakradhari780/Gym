@@ -6,6 +6,7 @@ const {
     loginCustomer,
     checkCustomerAttendence,
     customerDetails,
+    customerDetailsByEmail,
     logout
 } = require('../controllers/customerAuth');
 
@@ -20,7 +21,7 @@ const {
  } = require('../controllers/plan');
  
 
-router.get('/profile',customerDetails);
+router.get('/profile/',customerDetailsByEmail);
 
 router.get('/checkAttendence', checkCustomerAttendence);
 
