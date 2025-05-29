@@ -34,11 +34,11 @@ module.exports.loginManager = async (req, res) => {
 
 module.exports.updateManager = async (req, res) => {
   try {
-    let { salary, address, contact, email } = req.body;
+    let { salary, address, contact, email, status } = req.body;
 
     let manager = await managerModel.findOneAndUpdate(
       { email },
-      { salary, address, contact },
+      { salary, address, contact, status },
       { new: true }
     );
     if (!manager) return res.status(401).send("Something went wrong");
@@ -83,7 +83,10 @@ module.exports.registerManager = async (req, res) => {
       age,
       salary,
       managerId,
+      status,
     } = req.body;
+
+    console.log(status);
 
     let existingManager = await managerModel.findOne({ email });
     if (existingManager) return res.status(401).send("Manager already exists.");
@@ -91,7 +94,7 @@ module.exports.registerManager = async (req, res) => {
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(password, salt, async (err, hash) => {
         if (err)
-          return res
+          return res 
             .status(500)
             .send("Error occurred while hashing the password");
         else {
@@ -104,8 +107,10 @@ module.exports.registerManager = async (req, res) => {
             age,
             salary,
             managerId,
+            status,
             password: hash,
           });
+          console.log(newManager);
           res.send("Manager registered successfully");
         }
       });

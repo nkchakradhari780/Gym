@@ -29,6 +29,7 @@ const transectionModel = require("./models/transection_model");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 app.use(cors({
     origin: 'http://localhost:3000', // Frontend URL
     credentials: true, // Allow credentials
@@ -37,6 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // View Engine
 app.set('view engine', 'ejs');
+
+
 
 // Routes
 app.use('/', indexRoute);
@@ -50,9 +53,9 @@ app.use('/transections',transectionsRoute);
 app.get('/loginpage', (req, res) => {
     res.render('login');
 });
-
+ 
 // Server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-});
+}); 

@@ -21,9 +21,9 @@ const managerSchema = mongoose.Schema({
   address: { 
     type: String 
   },
-  aadharNo: { 
+  aadharNo: {  
     type: String ,
-    required: true
+    // required: true
   },
   age: { type: Number },
   salary: { type: Number },
@@ -33,14 +33,18 @@ const managerSchema = mongoose.Schema({
     type: Date,
     default: Date.now, // Corrected default for date
   },
+  status: {
+    type: String,
+    enum: ["active", "inactive", "on_leave"]
+  },
   gender: {
     type: String,
     enum: ["male", "female", "other"], // Corrected enum syntax
   },
   role: {
     type: String,
-    enum: ['owner', 'trainer', 'manager', 'customer'],
-    default: 'customer'
+    enum: ['admin', 'trainer', 'manager', 'member'],
+    // default: 'manager'
   },
   trainers: [
     {
@@ -51,3 +55,4 @@ const managerSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model("manager", managerSchema);
+ 

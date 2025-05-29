@@ -50,11 +50,11 @@ module.exports.deletePlan = async (req, res) => {
 module.exports.updatePlan = async (req, res) => {
   try {
     const { id } = req.params; // Get the plan ID from params
-    const { planID, level, planName, price, duration, category } = req.body;
+    const { planID, level, planName, price, duration, category,facilities } = req.body;
 
     let updatedPlan = await planModel.findByIdAndUpdate(
       id,
-      { level, planID, planName, price, duration, category },
+      { level, planID, planName, price, duration, category,facilities },
       { new: true, runValidators: true }
     );
     if (!updatedPlan) return res.status(404).json({ error: "Plan not found" }); // 404: Not found

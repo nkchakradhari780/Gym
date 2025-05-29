@@ -56,7 +56,6 @@ module.exports.registerCustomer = async (req, res) => {
               return res.status(400).send("Invalid trainer ID format");
             }
 
-
             const existingTrainer = await trainerModel.findById(trainer);
             if (!existingTrainer) {
               console.log("Trainer not found in the database");
@@ -139,13 +138,9 @@ module.exports.updateCustomer = async (req, res) => {
 module.exports.checkCustomerAttendence = async (req, res) => {
   const { id, role } = req.params;
 
-  console.log("Id",id,"role",role);
-
   try {
     // Find customer by email
     const customer = await customerModel.findById(id);
-
-    console.log('customer:',customer);
 
     if (!customer) {
       return res.status(404).json({ message: "Customer not found" });
@@ -168,8 +163,10 @@ module.exports.customerAttendence = async (req, res) => {
     const customer = await customerModel.findOne({ email });
 
     if (!customer) {
-      console.log(`customer with email: ${email} not found`)
-      return res.status(404).json({ message: `customer with email: ${email} not found` });
+      console.log(`customer with email: ${email} not found`);
+      return res
+        .status(404)
+        .json({ message: `customer with email: ${email} not found` });
     }
 
     // Ensure attendance field exists
@@ -182,11 +179,10 @@ module.exports.customerAttendence = async (req, res) => {
       (att) => att.date.toDateString() === new Date(date).toDateString()
     );
     if (existingAttendance) {
-      existingAttendance.status = status;  
+      existingAttendance.status = status;
     } else {
       // Add new attendance record
       customer.attendance.push({ date: new Date(date), status });
-
     }
 
     // Save the updated customer document
@@ -221,7 +217,10 @@ module.exports.deleteCustomer = async (req, res) => {
         console.log("Trainer not found while updating");
         // Optionally, you could send a warning, but it's not critical for deletion
       } else {
-        console.log("Customer removed from trainer's customer list:", updatedTrainer);
+        console.log(
+          "Customer removed from trainer's customer list:",
+          updatedTrainer
+        );
       }
     }
 
@@ -252,36 +251,30 @@ module.exports.customerDetails = async (req, res) => {
   }
 };
 
-
-
-module.exports.customerDetailsByEmail = async (req,res) =>{
+module.exports.customerDetailsByEmail = async (req, res) => {
   try {
     const email = req.email;
 
-    const customer = await customerModel.findOne({email});
+    const customer = await customerModel.findOne({ email });
 
-    if(!customer){
-      return res.status(404).json({message:" Customer Not Found"})
+    if (!customer) {
+      return res.status(404).json({ message: " Customer Not Found" });
     }
 
-    res.json({customer})
+    res.json({ customer });
   } catch (error) {
-    console.error("Error:",error.message);
-      res.status(500).json({message:"Server error"})
+    console.error("Error:", error.message);
+    res.status(500).json({ message: "Server error" });
   }
-}
-
-
+};
 
 module.exports.listCustomers = async (req, res) => {
   try {
     // Fetch list of all customers
-    let customerList = await customerModel
-      .find()
-      .populate({
-        path: "joinedPlans",
-        model: "plan"
-      })
+    let customerList = await customerModel.find().populate({
+      path: "joinedPlans",
+      model: "plan",
+    });
 
     // Get the total count of customers
     let totalCustomers = await customerModel.countDocuments();

@@ -11,8 +11,8 @@ const ownerSchema = mongoose.Schema({
     age: Number,
     role: {
         type: String,
-        enum: ['admin', 'trainer', 'manager', 'customer'],
-        default: 'owner'
+        enum: ['admin', 'trainer', 'manager', 'member'],
+        default: 'admin'
     },
     gym: [{
         type: mongoose.Schema.Types.ObjectId,

@@ -150,10 +150,10 @@ module.exports.listTrainers = async (req, res) => {
 
 
 module.exports.checkTrainerAttendence = async (req,res) =>{
-  const {email} = req.body;
+  const {id, role} = req.params;
 
   try{
-    const trainer = await trainerModel.findOne({email});
+    const trainer = await trainerModel.findById(id);
 
     if(!trainer){
       return res.status(404).json({message: "Trainer not found"});
@@ -173,7 +173,7 @@ module.exports.trainerAttendence = async (req,res) =>{
   try{
     const trainer = await trainerModel.findOne({email});
 
-    console.log(status);
+    // console.log(status);
 
     if(!trainer){
       console.log(`customer with email: ${email} not found`)

@@ -5,31 +5,33 @@ const customerModel = require("../models/costumer_model");
 const managerModel = require("../models/manager_model");
 const ownerModel = require('../models/owner_model');
 const trainerModel = require("../models/trainer_model");
-const { generateToken } = require("../utils/generatetoken");
 
 module.exports.loginHandler = async (req, res) => {
   if (req.method === 'POST') {
     const { email, password, role } = req.body;
 
-    let user;
+    // let user;
 
-    // Find user based on role
-    switch (role) {
-      case 'member':
-        user = await customerModel.findOne({ email });
-        break;
-      case 'manager':
-        user = await managerModel.findOne({ email });
-        break;
-      case 'trainer':
-        user = await trainerModel.findOne({ email });
-        break;
-      case 'admin':
-        user = await ownerModel.findOne({ email });
-        break;
-      default:
-        return res.status(400).json({ success: false, message: 'Invalid role' });
-    }
+    // // Find user based on role
+    // switch (role) {
+    //   case 'member':
+    //     user = await customerModel.findOne({ email });
+    //     break;
+    //   case 'manager':
+    //     user = await managerModel.findOne({ email });
+    //     break;
+    //   case 'trainer':
+    //     user = await trainerModel.findOne({ email });
+    //     break;
+    //   case 'admin':
+    //     user = await ownerModel.findOne({ email });
+    //     break;
+    //   default:
+    //     return res.status(400).json({ success: false, message: 'Invalid role' });
+    // }
+
+    let user = await managerModel.findOne({ email });
+    console.log("user: ",user)
 
     // Check if user exists
     if (!user) {

@@ -1,8 +1,11 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const ownerModel = require("../models/owner_model");
+const customerModel = require("../models/costumer_model")
+const managerModel = require("../models/manager_model")
+const trainerModel = require("../models/trainer_model")
 const gymModel = require("../models/gym_model");
-const { generateToken } = require("../utils/generatetoken");
+const { generateToken } = require("../utils/generateToken");
 
 module.exports.registerOwner = async (req, res) => {
   try {
@@ -26,7 +29,7 @@ module.exports.registerOwner = async (req, res) => {
             aadharNo,
             age,
           });
-          console.json(owner);
+          console.log(owner);
           res.send("Owner Created");
         }
       });
@@ -60,7 +63,7 @@ module.exports.loginOwner = async (req, res) => {
             token,
           });
       } else {
-        req.send("Email or password is incorrect");
+        res.send("Email or password is incorrect");
         return res.redirect("/");
       }
     });
@@ -86,5 +89,23 @@ module.exports.ownerDetails = async (req,res) => {
   } catch (error){
     console.error(error)
     res.status(500).json({message: "server error"})
+  }
+}
+
+module.exports.count = async (req,res) => {
+  try{
+
+    let customerCount = await customerModel.find().countDocuments();
+    let managerCount = await managerModel.find().countDocuments();
+    let trainerCount = await trainerModel.find().countDocuments();
+
+    res.status(200).json({
+      customerCount: customerCount,
+      managerCount: managerCount, 
+      trainerCount: trainerCount,
+    })
+
+  } catch (error) {
+
   }
 }

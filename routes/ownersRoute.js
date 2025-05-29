@@ -8,7 +8,8 @@ const {
     loginOwner,
     updateOwner,
     logout,
-    ownerDetails
+    ownerDetails,
+    count,
 } = require('../controllers/ownerAuth');
 
 const {
@@ -76,6 +77,9 @@ const {
 
 router.get('/',ownerDetails)
 
+router.get('/count',count)
+
+
 router.get('/manager',listManagers);
 
 router.post('/manager/create', registerManager);
@@ -96,7 +100,7 @@ router.put('/trainer/update',updateTrainer);
 
 router.delete('/trainer/:id',deleteTrainer);
 
-router.get('/trainer/attendence', checkTrainerAttendence);
+router.get('/trainer/attendence/:role/:id', checkTrainerAttendence);
 
 router.post('/trainer/attendence/mark', trainerAttendence);
 
@@ -161,9 +165,6 @@ router.delete('/diteplans/:id', deleteDietPlan);
 
 
 router.post('/sendannouncement',sendAnnouncement);
-
-
-
 
 
 

@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+router = express.Router();
 const {
     registerOwner,
     loginOwner
@@ -14,9 +14,9 @@ router.post('/login/owner',loginOwner)
 
 router.post('/login/manager',loginManager)
 
-// console.log(process.env.NODE_ENV);
+console.log(process.env.NODE_ENV);
 if(process.env.NODE_ENV === 'development'){
-    router.post('/owner/create', registerOwner);
+    router.post('/create/owner', registerOwner);
 }
 
 
