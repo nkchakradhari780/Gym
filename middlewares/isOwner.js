@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const ownerModel = require('../models/owner_model')
+const managerModel = require('../models/manager_model')
 
 module.exports = async (req,res,next) =>{
     try {
@@ -10,7 +11,7 @@ module.exports = async (req,res,next) =>{
         }
 
         const decoded = jwt.verify(token,process.env.JWT_KEY)
-        const owner = await ownerModel
+        const owner = await managerModel
             .findById(decoded.Id)
             .select("-password");
 
